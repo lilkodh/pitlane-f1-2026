@@ -1,134 +1,39 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 /* ============================================================
-   PITLANE DESIGN SYSTEM — Global Tokens & Utilities
-   Racing Black + Telemetry Green + Championship Yellow
+   PITLANE 2026 — CINEMATIC DESIGN SYSTEM
+   Formula 1 × Hypercar Dashboard × Broadcast Graphics
    ============================================================ */
 
 @theme {
-  /* Core Palette */
-  --color-racing-black:         #050505;
-  --color-carbon-black:         #0B0B0B;
-  --color-carbon-surface:       #111111;
-  --color-telemetry-green:      #39FF88;
-  --color-telemetry-green-dim:  #1aff6d;
-  --color-championship-yellow:  #FFD60A;
-  --color-pure-white:           #FFFFFF;
-
-  /* Typography */
+  --color-racing-black:        #050505;
+  --color-carbon-black:        #0B0B0B;
+  --color-carbon-surface:      #111111;
+  --color-telemetry-green:     #39FF88;
+  --color-championship-yellow: #FFD60A;
+  --color-pure-white:          #FFFFFF;
   --font-hero: "Space Grotesk", sans-serif;
   --font-body: "Inter", sans-serif;
 }
 
-/* ── Global Reset ────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; }
-
+/* ── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-
 body {
-  background-color: #050505;
-  color: #ffffff;
+  background: #050505;
+  color: #fff;
   font-family: "Inter", sans-serif;
-  margin: 0;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Glass Utilities ─────────────────────────────────────── */
-
-/* Floating frosted navigation bar */
-.glass-nav {
-  background: rgba(5, 5, 5, 0.7);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-/* Standard glassmorphism card surface */
-.glass-card {
-  background: rgba(11, 11, 11, 0.4);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* ── Buttons ─────────────────────────────────────────────── */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  background: linear-gradient(135deg, #39FF88 0%, #2cff74 100%);
-  color: #050505;
-  font-weight: 800;
-  font-family: "Inter", sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: 0.75rem;
-  padding: 0.875rem 2rem;
-  border-radius: 9999px;
-  transition: filter 0.3s ease, transform 0.3s ease;
-  border: none;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.btn-primary:hover {
-  filter: drop-shadow(0 0 18px rgba(57, 255, 136, 0.5));
-  transform: scale(1.04) translateY(-1px);
-}
-
-/* ── Noise texture overlay ───────────────────────────────── */
-.noise-bg {
-  position: absolute;
-  inset: 0;
-  opacity: 0.04;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 256px 256px;
-}
-
-/* ── Glow Keyframes ──────────────────────────────────────── */
-@keyframes pulse-green {
-  0%, 100% { box-shadow: 0 0 10px rgba(57,255,136,0.3), 0 0 30px rgba(57,255,136,0.1); }
-  50%       { box-shadow: 0 0 20px rgba(57,255,136,0.6), 0 0 60px rgba(57,255,136,0.2); }
-}
-
-@keyframes scanline {
-  0%   { transform: translateY(-100%); opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { transform: translateY(100vh); opacity: 0; }
-}
-
-@keyframes streak {
-  0%   { transform: translateX(-100%) scaleX(0); opacity: 0; }
-  50%  { opacity: 1; }
-  100% { transform: translateX(100vw) scaleX(1); opacity: 0; }
-}
-
-@keyframes float-up {
-  0%   { transform: translateY(0px);   opacity: 0.6; }
-  100% { transform: translateY(-100vh); opacity: 0; }
-}
-
-@keyframes hud-blink {
-  0%, 90%, 100% { opacity: 1; }
-  95%           { opacity: 0.2; }
-}
-
-.animate-scanline   { animation: scanline 4s linear infinite; }
-.animate-streak     { animation: streak 2.4s ease-in-out infinite; }
-.animate-hud-blink  { animation: hud-blink 3s ease infinite; }
-.animate-pulse-green { animation: pulse-green 2.5s ease-in-out infinite; }
-
-/* ── Scrollbar ───────────────────────────────────────────── */
-::-webkit-scrollbar { width: 4px; }
+/* ── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: #050505; }
-::-webkit-scrollbar-thumb { background: #39FF88; border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: #2cff74; }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #39FF88, #FFD60A); border-radius: 2px; }
 
-/* ── Typography helpers ──────────────────────────────────── */
+/* ── Typography ─────────────────────────────────────────────── */
 .hero-text {
   font-family: "Space Grotesk", sans-serif;
   font-weight: 800;
@@ -136,11 +41,153 @@ body {
   line-height: 0.85;
   letter-spacing: -0.03em;
 }
-
 .data-label {
-  font-size: 0.625rem;
+  font-size: 0.6rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.35);
 }
+
+/* ── Glass Utilities ─────────────────────────────────────────── */
+.glass-nav {
+  background: rgba(5,5,5,0.75);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.glass-card {
+  background: rgba(11,11,11,0.40);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  background: linear-gradient(135deg, #39FF88 0%, #2cff74 100%);
+  color: #050505;
+  font-weight: 800; font-family: "Inter", sans-serif;
+  text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.72rem;
+  padding: 0.9rem 2rem;
+  border-radius: 9999px;
+  border: none; cursor: pointer; white-space: nowrap;
+  transition: filter 0.3s ease, transform 0.25s ease;
+}
+.btn-primary:hover {
+  filter: drop-shadow(0 0 20px rgba(57,255,136,0.55));
+  transform: scale(1.04) translateY(-2px);
+}
+
+/* ── Noise Texture ──────────────────────────────────────────── */
+.noise-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+
+/* ── Carbon Fiber Pattern ───────────────────────────────────── */
+.carbon-fiber {
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.015) 0px,
+      rgba(255,255,255,0.015) 1px,
+      transparent 1px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255,255,255,0.015) 0px,
+      rgba(255,255,255,0.015) 1px,
+      transparent 1px,
+      transparent 8px
+    );
+}
+
+/* ════════════════════════════════════════════════════════════
+   CINEMATIC ANIMATION KEYFRAMES
+   ════════════════════════════════════════════════════════════ */
+
+/* Speed streak — horizontal light burst */
+@keyframes speed-streak {
+  0%   { transform: translateX(-110%) scaleX(0.2); opacity: 0; }
+  20%  { opacity: 0.8; }
+  80%  { opacity: 0.6; }
+  100% { transform: translateX(110vw) scaleX(1); opacity: 0; }
+}
+
+/* Diagonal racing line sweep */
+@keyframes racing-line {
+  0%   { transform: translateX(-100%) skewX(-15deg); opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 0.7; }
+  100% { transform: translateX(200vw) skewX(-15deg); opacity: 0; }
+}
+
+/* HUD scanline drop */
+@keyframes hud-scan {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  8%   { opacity: 0.6; }
+  92%  { opacity: 0.4; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+/* Telemetry pulse */
+@keyframes telemetry-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(57,255,136,0.3), 0 0 20px rgba(57,255,136,0.1); }
+  50%       { box-shadow: 0 0 20px rgba(57,255,136,0.7), 0 0 50px rgba(57,255,136,0.25); }
+}
+
+/* Glow breathe */
+@keyframes glow-breathe {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+/* Blink — HUD digit separator */
+@keyframes hud-blink {
+  0%, 88%, 100% { opacity: 1; }
+  94%            { opacity: 0.15; }
+}
+
+/* Float — cinematic car hover */
+@keyframes float-car {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+/* Radar sweep */
+@keyframes radar-sweep {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Rolling digit — number change */
+@keyframes digit-roll-in {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0%); opacity: 1; }
+}
+
+/* Energy pulse wave for Sprint cards */
+@keyframes energy-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(255,214,10,0.4); }
+  70%  { box-shadow: 0 0 0 12px rgba(255,214,10,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,214,10,0); }
+}
+
+/* ── Animation Utilities ─────────────────────────────────────── */
+.animate-speed-streak   { animation: speed-streak 2.6s ease-in-out infinite; }
+.animate-racing-line    { animation: racing-line 3.2s ease-in-out infinite; }
+.animate-hud-scan       { animation: hud-scan 5s linear infinite; }
+.animate-hud-blink      { animation: hud-blink 2.8s ease infinite; }
+.animate-float-car      { animation: float-car 6s ease-in-out infinite; }
+.animate-glow-breathe   { animation: glow-breathe 2.5s ease-in-out infinite; }
+.animate-radar          { animation: radar-sweep 4s linear infinite; }
+.animate-energy-pulse   { animation: energy-pulse 2s ease infinite; }
+.animate-telemetry      { animation: telemetry-pulse 2.5s ease-in-out infinite; }
+
+/* ── Selection ──────────────────────────────────────────────── */
+::selection { background: rgba(57,255,136,0.2); color: #39FF88; }
