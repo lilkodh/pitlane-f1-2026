@@ -1,20 +1,16 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Flip } from 'gsap/Flip';
-import { RouterProvider } from 'react-router-dom';
-import './index.css';
-import { router } from './router.jsx';
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './app.jsx'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
 
-gsap.registerPlugin(ScrollTrigger, Flip);
-
-if (import.meta.env.DEV) {
-  window.gsap = gsap;
-}
+// Register GSAP plugins globally once
+gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>
-);
+    <App />
+  </StrictMode>,
+)

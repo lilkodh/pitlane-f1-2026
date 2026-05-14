@@ -1,29 +1,74 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  html {
-    @apply antialiased scroll-smooth;
-  }
-  body {
-    @apply min-h-screen bg-carbon text-titanium font-sans;
-    background-image: theme(backgroundImage.carbon-radial);
-    background-attachment: fixed;
-  }
-  #root {
-    @apply min-h-screen;
-  }
+@theme {
+  --color-racing-black: #050505;
+  --color-carbon-black: #0B0B0B;
+  --color-telemetry-green: #39FF88;
+  --color-championship-yellow: #FFD60A;
+  --color-pure-white: #FFFFFF;
+
+  --font-hero: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
 }
 
-@layer components {
-  .liquid-glass {
-    @apply border border-white/10 bg-white/5 shadow-inner backdrop-blur-md;
-  }
-  .liquid-glass-strong {
-    @apply border border-f1red/40 bg-white/[0.07] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-lg;
-  }
-  .text-gradient-red {
-    @apply bg-gradient-to-r from-f1red to-red-400 bg-clip-text text-transparent;
-  }
+body {
+  background-color: var(--color-racing-black);
+  color: var(--color-pure-white);
+  font-family: var(--font-body);
+  margin: 0;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .hero-text {
+  font-family: var(--font-hero);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-nav {
+  background: rgba(11, 11, 11, 0.6);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(57, 255, 136, 0.25);
+  transform: scale(1.02) translateY(-2px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #39FF88 0%, #2cff74 100%);
+  color: #050505;
+  font-weight: 700;
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary:hover {
+  filter: drop-shadow(0 0 15px rgba(57, 255, 136, 0.4));
+  transform: scale(1.05);
+}
+
+.noise-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
