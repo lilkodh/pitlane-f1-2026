@@ -12,7 +12,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowRight, Activity, Zap, Cpu, Radio } from 'lucide-react'
 import { useCountdown } from '../hooks/use-countdown'
 import { RACES } from '../data/races'
-import ferrariHero from '../assets/cars/ferrari-2026.webp'
+
+const ferrariHero = '/src/assets/cars/ferrari-2026.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 
