@@ -1,38 +1,56 @@
-import { useRef } from 'react';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { RACES } from '../data/races';
-import RaceCard from '../components/race-card';
+/**
+ * PITLANE — Calendar Page  /calendar
+ * Full 2026 season race grid.
+ */
+
+import { useRef } from 'react'
+import { useGSAP } from '@gsap/react'
+import gsap from 'gsap'
+import { Flag } from 'lucide-react'
+import { RACES } from '../data/races'
+import RaceCard from '../components/race-card'
 
 export default function CalendarPage() {
-  const containerRef = useRef(null);
-  const headerRef = useRef(null);
+  const containerRef = useRef()
+  const headerRef    = useRef()
 
   useGSAP(() => {
-    gsap.from(headerRef.current, {
-      y: 50,
-      opacity: 0,
-      duration: 1,
-      ease: "power4.out"
-    });
-  }, { scope: containerRef });
+    gsap.from(headerRef.current, { y: 60, opacity: 0, duration: 1.2, ease: 'expo.out' })
+  }, { scope: containerRef })
 
   return (
-    <div ref={containerRef} className="container mx-auto px-6 py-32 relative z-10 min-h-screen">
-      <div ref={headerRef} className="mb-16">
-        <h1 className="text-5xl md:text-7xl font-hero font-black mb-4 uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
-          2026 Season <span className="text-[#39FF88]">Calendar</span>
+    <div ref={containerRef} className="relative z-10 min-h-screen pt-[72px] px-6 lg:px-12 pb-32 max-w-screen-xl mx-auto">
+
+      {/* Header */}
+      <div ref={headerRef} className="pt-16 pb-16 border-b border-white/5 mb-14">
+        <div className="flex items-center gap-3 mb-4">
+          <Flag size={14} className="text-[#FFD60A]" />
+          <span className="data-label text-[#FFD60A]">2026 FIA Formula 1 World Championship</span>
+        </div>
+        <h1 className="hero-text text-5xl md:text-7xl text-white">
+          Season <span className="text-[#FFD60A]">Calendar</span>
         </h1>
-        <p className="text-xl text-gray-400 max-w-2xl">
-          The ultimate 24-race championship. Follow the action across the globe and save your favorite weekends to your personal garage.
+        <p className="text-white/40 text-xl mt-5 max-w-2xl font-medium">
+          The most technically extreme calendar in Formula 1 history. 
+          Save circuits to your garage and log every race you watch.
         </p>
+
+        {/* Circuit count */}
+        <div className="flex items-center gap-3 mt-8">
+          <span className="text-5xl font-hero font-black text-white">{RACES.length}</span>
+          <div>
+            <div className="text-sm font-bold text-white/50">Circuits</div>
+            <div className="data-label">Across 6 Continents</div>
+          </div>
+        </div>
       </div>
 
+      {/* Card grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {RACES.map((race, index) => (
           <RaceCard key={race.id} race={race} index={index} />
         ))}
       </div>
     </div>
-  );
+  )
 }
