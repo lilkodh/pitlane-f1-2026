@@ -35,12 +35,22 @@ export default function CalendarPage() {
           Save circuits to your garage and log every race you watch.
         </p>
 
-        {/* Circuit count */}
-        <div className="flex items-center gap-3 mt-8">
-          <span className="text-5xl font-hero font-black text-white">{RACES.length}</span>
-          <div>
-            <div className="text-sm font-bold text-white/50">Circuits</div>
-            <div className="data-label">Across 6 Continents</div>
+        {/* Stats row */}
+        <div className="flex flex-wrap items-center gap-8 mt-8">
+          <div className="flex items-center gap-3">
+            <span className="text-5xl font-hero font-black text-white">{RACES.length}</span>
+            <div>
+              <div className="text-sm font-bold text-white/50">Races</div>
+              <div className="data-label">6 Continents</div>
+            </div>
+          </div>
+          <div className="w-px h-10 bg-white/10" />
+          <div className="flex items-center gap-3">
+            <span className="text-5xl font-hero font-black text-[#FFD60A]">{RACES.filter(r => r.isSprint).length}</span>
+            <div>
+              <div className="text-sm font-bold text-[#FFD60A]/60">Sprint</div>
+              <div className="data-label">Weekends</div>
+            </div>
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 
-// Register GSAP plugins globally once
+// Register GSAP plugins globally — do this ONCE here, never inside components
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 createRoot(document.getElementById('root')).render(

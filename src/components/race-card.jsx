@@ -186,6 +186,14 @@ export default function RaceCard({ race, index = 0 }) {
             <span className="text-[10px] font-bold uppercase tracking-widest text-white/80">{race.country}</span>
           </div>
 
+          {/* Sprint weekend badge */}
+          {race.isSprint && (
+            <div className="absolute bottom-4 left-4 z-20 px-2.5 py-1 rounded-md text-[9px] font-black uppercase tracking-widest"
+              style={{ background: 'rgba(255,214,10,0.9)', color: '#050505' }}>
+              ⚡ Sprint
+            </div>
+          )}
+
           {/* Favorite toggle */}
           <button
             onClick={() => toggleFavorite(race.id)}

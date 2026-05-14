@@ -1,3 +1,21 @@
+/**
+ * PITLANE — 2026 FIA Formula 1 World Championship Calendar
+ * ==========================================================
+ * Full 24-race season data.
+ * Used across all pages via direct import — no API call needed.
+ *
+ * DATA SHAPE:
+ *  id         → kebab-case unique identifier (used as route param)
+ *  name       → Official GP name
+ *  country    → Host country
+ *  circuit    → Official circuit name
+ *  date       → ISO 8601 race day start (UTC)
+ *  image      → Unsplash URL (swap for local asset path if desired)
+ *  laps       → Race distance in laps
+ *  length     → Circuit length in km
+ *  isSprint   → true if the weekend includes a Sprint race
+ */
+
 export const RACES = [
   {
     id: "bhr-2026",
@@ -5,10 +23,8 @@ export const RACES = [
     country: "Bahrain",
     circuit: "Bahrain International Circuit",
     date: "2026-03-01T15:00:00Z",
-    status: "upcoming",
-    image: "https://images.unsplash.com/photo-1541348263662-e06836264be8?auto=format&fit=crop&q=80&w=1000",
-    laps: 57,
-    length: "5.412 km"
+    image: "https://images.unsplash.com/photo-1541348263662-e06836264be8?auto=format&fit=crop&q=80&w=1200",
+    laps: 57, length: "5.412 km", isSprint: false,
   },
   {
     id: "sau-2026",
@@ -16,10 +32,8 @@ export const RACES = [
     country: "Saudi Arabia",
     circuit: "Jeddah Corniche Circuit",
     date: "2026-03-08T17:00:00Z",
-    status: "upcoming",
-    image: "https://images.unsplash.com/photo-1629845722107-1b2096735e5a?auto=format&fit=crop&q=80&w=1000",
-    laps: 50,
-    length: "6.174 km"
+    image: "https://images.unsplash.com/photo-1541348263662-e06836264be8?auto=format&fit=crop&q=80&w=1200",
+    laps: 50, length: "6.174 km", isSprint: false,
   },
   {
     id: "aus-2026",
@@ -27,10 +41,8 @@ export const RACES = [
     country: "Australia",
     circuit: "Albert Park Circuit",
     date: "2026-03-22T04:00:00Z",
-    status: "upcoming",
-    image: "https://images.unsplash.com/photo-1596417758778-9e198fa4c3f5?auto=format&fit=crop&q=80&w=1000",
-    laps: 58,
-    length: "5.278 km"
+    image: "https://images.unsplash.com/photo-1596417758778-9e198fa4c3f5?auto=format&fit=crop&q=80&w=1200",
+    laps: 58, length: "5.278 km", isSprint: false,
   },
   {
     id: "jpn-2026",
@@ -38,10 +50,17 @@ export const RACES = [
     country: "Japan",
     circuit: "Suzuka International Racing Course",
     date: "2026-04-05T05:00:00Z",
-    status: "upcoming",
-    image: "https://images.unsplash.com/photo-1579803815615-121bf811ee9b?auto=format&fit=crop&q=80&w=1000",
-    laps: 53,
-    length: "5.807 km"
+    image: "https://images.unsplash.com/photo-1579803815615-121bf811ee9b?auto=format&fit=crop&q=80&w=1200",
+    laps: 53, length: "5.807 km", isSprint: false,
+  },
+  {
+    id: "chn-2026",
+    name: "Chinese Grand Prix",
+    country: "China",
+    circuit: "Shanghai International Circuit",
+    date: "2026-04-19T07:00:00Z",
+    image: "https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&q=80&w=1200",
+    laps: 56, length: "5.451 km", isSprint: true,
   },
   {
     id: "mia-2026",
@@ -49,10 +68,17 @@ export const RACES = [
     country: "United States",
     circuit: "Miami International Autodrome",
     date: "2026-05-03T20:00:00Z",
-    status: "upcoming",
-    image: "https://images.unsplash.com/photo-1510006764426-8ea873db81d6?auto=format&fit=crop&q=80&w=1000",
-    laps: 57,
-    length: "5.412 km"
+    image: "https://images.unsplash.com/photo-1510006764426-8ea873db81d6?auto=format&fit=crop&q=80&w=1200",
+    laps: 57, length: "5.412 km", isSprint: true,
+  },
+  {
+    id: "emi-2026",
+    name: "Emilia Romagna Grand Prix",
+    country: "Italy",
+    circuit: "Autodromo Enzo e Dino Ferrari",
+    date: "2026-05-17T13:00:00Z",
+    image: "https://images.unsplash.com/photo-1533560904424-a0c61dc306fc?auto=format&fit=crop&q=80&w=1200",
+    laps: 63, length: "4.909 km", isSprint: false,
   },
   {
     id: "mon-2026",
@@ -60,9 +86,151 @@ export const RACES = [
     country: "Monaco",
     circuit: "Circuit de Monaco",
     date: "2026-05-24T13:00:00Z",
-    status: "upcoming",
-    image: "https://images.unsplash.com/photo-1533560904424-a0c61dc306fc?auto=format&fit=crop&q=80&w=1000",
-    laps: 78,
-    length: "3.337 km"
-  }
-];
+    image: "https://images.unsplash.com/photo-1629845722107-1b2096735e5a?auto=format&fit=crop&q=80&w=1200",
+    laps: 78, length: "3.337 km", isSprint: false,
+  },
+  {
+    id: "esp-2026",
+    name: "Spanish Grand Prix",
+    country: "Spain",
+    circuit: "Circuit de Barcelona-Catalunya",
+    date: "2026-06-01T13:00:00Z",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=1200",
+    laps: 66, length: "4.657 km", isSprint: false,
+  },
+  {
+    id: "can-2026",
+    name: "Canadian Grand Prix",
+    country: "Canada",
+    circuit: "Circuit Gilles Villeneuve",
+    date: "2026-06-14T18:00:00Z",
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80&w=1200",
+    laps: 70, length: "4.361 km", isSprint: false,
+  },
+  {
+    id: "aut-2026",
+    name: "Austrian Grand Prix",
+    country: "Austria",
+    circuit: "Red Bull Ring",
+    date: "2026-06-28T13:00:00Z",
+    image: "https://images.unsplash.com/photo-1504700610630-ac6aba3536d3?auto=format&fit=crop&q=80&w=1200",
+    laps: 71, length: "4.318 km", isSprint: true,
+  },
+  {
+    id: "gbr-2026",
+    name: "British Grand Prix",
+    country: "Great Britain",
+    circuit: "Silverstone Circuit",
+    date: "2026-07-05T14:00:00Z",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=1200",
+    laps: 52, length: "5.891 km", isSprint: false,
+  },
+  {
+    id: "bel-2026",
+    name: "Belgian Grand Prix",
+    country: "Belgium",
+    circuit: "Circuit de Spa-Francorchamps",
+    date: "2026-07-26T13:00:00Z",
+    image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&q=80&w=1200",
+    laps: 44, length: "7.004 km", isSprint: true,
+  },
+  {
+    id: "hun-2026",
+    name: "Hungarian Grand Prix",
+    country: "Hungary",
+    circuit: "Hungaroring",
+    date: "2026-08-02T13:00:00Z",
+    image: "https://images.unsplash.com/photo-1529655683826-aba9b3e77383?auto=format&fit=crop&q=80&w=1200",
+    laps: 70, length: "4.381 km", isSprint: false,
+  },
+  {
+    id: "nld-2026",
+    name: "Dutch Grand Prix",
+    country: "Netherlands",
+    circuit: "Circuit Zandvoort",
+    date: "2026-08-30T13:00:00Z",
+    image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80&w=1200",
+    laps: 72, length: "4.259 km", isSprint: false,
+  },
+  {
+    id: "ita-2026",
+    name: "Italian Grand Prix",
+    country: "Italy",
+    circuit: "Autodromo Nazionale Monza",
+    date: "2026-09-06T13:00:00Z",
+    image: "https://images.unsplash.com/photo-1541348263662-e06836264be8?auto=format&fit=crop&q=80&w=1200",
+    laps: 53, length: "5.793 km", isSprint: false,
+  },
+  {
+    id: "aze-2026",
+    name: "Azerbaijan Grand Prix",
+    country: "Azerbaijan",
+    circuit: "Baku City Circuit",
+    date: "2026-09-20T11:00:00Z",
+    image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80&w=1200",
+    laps: 51, length: "6.003 km", isSprint: true,
+  },
+  {
+    id: "sgp-2026",
+    name: "Singapore Grand Prix",
+    country: "Singapore",
+    circuit: "Marina Bay Street Circuit",
+    date: "2026-10-04T13:00:00Z",
+    image: "https://images.unsplash.com/photo-1529655683826-aba9b3e77383?auto=format&fit=crop&q=80&w=1200",
+    laps: 62, length: "4.940 km", isSprint: false,
+  },
+  {
+    id: "usa-2026",
+    name: "United States Grand Prix",
+    country: "United States",
+    circuit: "Circuit of the Americas",
+    date: "2026-10-18T19:00:00Z",
+    image: "https://images.unsplash.com/photo-1510006764426-8ea873db81d6?auto=format&fit=crop&q=80&w=1200",
+    laps: 56, length: "5.513 km", isSprint: true,
+  },
+  {
+    id: "mex-2026",
+    name: "Mexico City Grand Prix",
+    country: "Mexico",
+    circuit: "Autodromo Hermanos Rodriguez",
+    date: "2026-10-25T20:00:00Z",
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80&w=1200",
+    laps: 71, length: "4.304 km", isSprint: false,
+  },
+  {
+    id: "bra-2026",
+    name: "São Paulo Grand Prix",
+    country: "Brazil",
+    circuit: "Autodromo Jose Carlos Pace (Interlagos)",
+    date: "2026-11-08T17:00:00Z",
+    image: "https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&q=80&w=1200",
+    laps: 71, length: "4.309 km", isSprint: true,
+  },
+  {
+    id: "lv-2026",
+    name: "Las Vegas Grand Prix",
+    country: "United States",
+    circuit: "Las Vegas Strip Circuit",
+    date: "2026-11-21T06:00:00Z",
+    image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&q=80&w=1200",
+    laps: 50, length: "6.201 km", isSprint: false,
+  },
+  {
+    id: "qat-2026",
+    name: "Qatar Grand Prix",
+    country: "Qatar",
+    circuit: "Lusail International Circuit",
+    date: "2026-11-29T13:00:00Z",
+    image: "https://images.unsplash.com/photo-1529655683826-aba9b3e77383?auto=format&fit=crop&q=80&w=1200",
+    laps: 57, length: "5.380 km", isSprint: true,
+  },
+  {
+    id: "abu-2026",
+    name: "Abu Dhabi Grand Prix",
+    country: "United Arab Emirates",
+    circuit: "Yas Marina Circuit",
+    date: "2026-12-06T13:00:00Z",
+    image: "https://images.unsplash.com/photo-1541348263662-e06836264be8?auto=format&fit=crop&q=80&w=1200",
+    laps: 58, length: "5.281 km", isSprint: false,
+  },
+]
