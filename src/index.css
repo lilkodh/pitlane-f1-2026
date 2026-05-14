@@ -1,218 +1,59 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@600;700&display=swap');
-
-/* ============================================================
-   PITLANE 2026 — DESIGN SYSTEM
-   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @theme {
-  --color-racing-red:        #DC0000;
-  --color-midnight-black:    #0F0F0F;
-  --color-platinum-silver:   #F5F5F5;
-  --color-track-gray:        #3A3A3A;
-  --color-electric-blue:     #00D9FF;
-  --color-gold:              #FFD700;
-  --color-neon-green:        #00FF41;
-  --color-warning-orange:    #FF6B00;
-  
-  --font-hero: "Inter", sans-serif;
+  --font-hero: "Space Grotesk", sans-serif;
   --font-body: "Inter", sans-serif;
-  --font-mono: "IBM Plex Mono", monospace;
+  --color-racing-black: #050505;
+  --color-telemetry-green: #39FF88;
+  --color-champ-yellow: #FFD60A;
 }
 
-:root {
-  --bg-primary: #0F0F0F;
-  --bg-secondary: #1A1A1A;
-  --text-primary: #F5F5F5;
-  --border-color: #3A3A3A;
-  --overlay: rgba(15, 15, 15, 0.8);
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* ── Reset ─────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: var(--font-body);
+html, body {
+  background: #050505;
+  color: #fff;
+  font-family: "Inter", sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Scrollbar ──────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: var(--color-racing-red); border-radius: 2px; }
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #050505; }
+::-webkit-scrollbar-thumb { background: #39FF88; border-radius: 2px; }
 
-/* ── Typography ─────────────────────────────────────────────── */
-.hero-text {
-  font-family: var(--font-hero);
-  font-weight: 800;
-  text-transform: uppercase;
-  line-height: 1.2;
-  letter-spacing: -0.03em;
+/* GSAP Character Split */
+.split-char {
+  display: inline-block;
+  will-change: transform, opacity;
 }
 
-.data-label {
-  font-size: 0.75rem; /* Caption 12px */
-  font-weight: 600; /* Label 13px bold */
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--color-track-gray);
-}
-
-.mono-text {
-  font-family: var(--font-mono);
-  font-weight: 700;
-}
-
-/* ── Glass Utilities ─────────────────────────────────────────── */
+/* Glass & Utilities */
 .glass-nav {
-  background: var(--bg-primary);
-  border-bottom: 1px solid var(--border-color);
+  background: rgba(5, 5, 5, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.glass-card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+.hero-text {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 900;
+  line-height: 0.85;
+  text-transform: uppercase;
 }
 
-/* ── Buttons ─────────────────────────────────────────────────── */
-.btn-primary {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-  background: var(--color-racing-red);
-  color: var(--color-platinum-silver);
-  font-weight: 700; font-family: var(--font-body);
-  font-size: 13px; /* Label size */
-  padding: 12px 24px;
-  border-radius: 4px;
-  border: none; cursor: pointer; white-space: nowrap;
-  transition: all 0.3s ease;
-}
-.btn-primary:hover {
-  filter: brightness(0.9);
-  transform: scale(1.05);
-}
-.btn-primary:active {
-  filter: brightness(0.8);
-}
-.btn-primary:focus {
-  outline: 2px solid var(--color-electric-blue);
-  outline-offset: 2px;
-}
-
-/* ── Noise Texture ──────────────────────────────────────────── */
-.noise-bg {
-  position: absolute; inset: 0; pointer-events: none;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 256px 256px;
-}
-
-/* ── Carbon Fiber Pattern ───────────────────────────────────── */
-.carbon-fiber {
-  background-image:
-    repeating-linear-gradient(
-      45deg,
-      rgba(245,245,245,0.015) 0px,
-      rgba(245,245,245,0.015) 1px,
-      transparent 1px,
-      transparent 8px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      rgba(245,245,245,0.015) 0px,
-      rgba(245,245,245,0.015) 1px,
-      transparent 1px,
-      transparent 8px
-    );
-}
-
-/* ════════════════════════════════════════════════════════════
-   CINEMATIC ANIMATION KEYFRAMES
-   ════════════════════════════════════════════════════════════ */
-
-/* Speed streak — horizontal light burst */
-@keyframes speed-streak {
-  0%   { transform: translateX(-110%) scaleX(0.2); opacity: 0; }
-  20%  { opacity: 0.8; }
-  80%  { opacity: 0.6; }
-  100% { transform: translateX(110vw) scaleX(1); opacity: 0; }
-}
-
-/* Diagonal racing line sweep */
-@keyframes racing-line {
-  0%   { transform: translateX(-100%) skewX(-15deg); opacity: 0; }
-  15%  { opacity: 1; }
-  85%  { opacity: 0.7; }
-  100% { transform: translateX(200vw) skewX(-15deg); opacity: 0; }
-}
-
-/* HUD scanline drop */
-@keyframes hud-scan {
-  0%   { transform: translateY(-100%); opacity: 0; }
-  8%   { opacity: 0.6; }
-  92%  { opacity: 0.4; }
-  100% { transform: translateY(100vh); opacity: 0; }
-}
-
-/* Telemetry pulse */
-@keyframes telemetry-pulse {
-  0%, 100% { box-shadow: 0 0 8px rgba(220,0,0,0.3), 0 0 20px rgba(220,0,0,0.1); }
-  50%       { box-shadow: 0 0 20px rgba(220,0,0,0.7), 0 0 50px rgba(220,0,0,0.25); }
-}
-
-/* Glow breathe */
-@keyframes glow-breathe {
-  0%, 100% { opacity: 0.6; }
-  50%       { opacity: 1; }
-}
-
-/* Blink — HUD digit separator */
-@keyframes hud-blink {
-  0%, 88%, 100% { opacity: 1; }
-  94%            { opacity: 0.15; }
-}
-
-/* Float — cinematic car hover */
-@keyframes float-car {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-12px); }
-}
-
-/* Radar sweep */
-@keyframes radar-sweep {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-/* Energy pulse wave for Sprint cards */
-@keyframes energy-pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(255,215,0,0.4); }
-  70%  { box-shadow: 0 0 0 12px rgba(255,215,0,0); }
-  100% { box-shadow: 0 0 0 0 rgba(255,215,0,0); }
-}
-
-/* ── Animation Utilities ─────────────────────────────────────── */
-.animate-speed-streak   { animation: speed-streak 2.6s ease-in-out infinite; }
-.animate-racing-line    { animation: racing-line 3.2s ease-in-out infinite; }
-.animate-hud-scan       { animation: hud-scan 5s linear infinite; }
-.animate-hud-blink      { animation: hud-blink 2.8s ease infinite; }
-.animate-float-car      { animation: float-car 6s ease-in-out infinite; }
-.animate-glow-breathe   { animation: glow-breathe 2.5s ease-in-out infinite; }
-.animate-radar          { animation: radar-sweep 4s linear infinite; }
-.animate-energy-pulse   { animation: energy-pulse 2s ease infinite; }
-.animate-telemetry      { animation: telemetry-pulse 2.5s ease-in-out infinite; }
-
-/* ── Selection ──────────────────────────────────────────────── */
-::selection { background: rgba(220,0,0,0.2); color: var(--color-racing-red); }
-
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  z-index: 50;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }

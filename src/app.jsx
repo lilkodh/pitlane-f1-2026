@@ -1,48 +1,47 @@
-/**
- * PITLANE — App Root & React Router v7 Configuration
- * ====================================================
- * Defines the full route tree and wraps every page
- * in the shared RootLayout (Background8D + NavBar).
- *
- * ROUTER RULE: Always import from "react-router", never "react-router-dom"
- */
-
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router'
-import { F1Provider } from './context/f1-context'
-import NavBar        from './components/nav-bar'
-import HomePage      from './pages/home-page'
-import CalendarPage  from './pages/calendar-page'
-import RaceDetailPage from './pages/race-detail-page'
-import GaragePage    from './pages/garage-page'
-import SeasonPage    from './pages/season-page'
-
-/* ── Root Layout: shared chrome wrapping every route ──────── */
-const RootLayout = () => (
-  <F1Provider>
-    <div className="relative min-h-screen">
-      <NavBar />
-      <main className="flex-1">
-        <Outlet />
-      </main>
-    </div>
-  </F1Provider>
-)
-
-/* ── Route tree ───────────────────────────────────────────── */
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <RootLayout />,
-    children: [
-      { index: true,                element: <HomePage />      },
-      { path: 'calendar',           element: <CalendarPage />  },
-      { path: 'calendar/:raceId',   element: <RaceDetailPage />},
-      { path: 'mygarage',           element: <GaragePage />    },
-      { path: 'myseason',           element: <SeasonPage />    },
-    ],
-  },
-])
+import NavBar from './components/nav-bar'
+import Background8D from './components/background-8d'
+import HeroSection from './components/hero-section'
+import CardGrid from './components/card-grid'
+import { useEffect } from 'react'
+import Lenis from '@studio-freight/lenis'
 
 export default function App() {
-  return <RouterProvider router={router} />
+  // Smooth scrolling for the parallax
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+      infinite: false,
+    })
+
+    function raf(time) {
+      lenis.raf(time)
+      requestAnimationFrame(raf)
+    }
+
+    requestAnimationFrame(raf)
+
+    return () => {
+      lenis.destroy()
+    }
+  }, [])
+
+  return (
+    <div className="relative min-h-screen text-white bg-[#050505] selection:bg-[#39FF88]/30 selection:text-[#39FF88]">
+      <div className="noise-overlay" />
+      <NavBar />
+      <Background8D />
+      
+      <main className="relative z-10 w-full flex flex-col">
+        <HeroSection />
+        <CardGrid />
+      </main>
+    </div>
+  )
 }
