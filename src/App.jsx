@@ -1,7 +1,11 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router"
 import NavBar from "./components/nav-bar"
 import Background8D from "./components/background-8d"
-import HeroSection from "./components/hero-section"
+import HomePage from "./pages/home-page"
+import CalendarPage from "./pages/calendar-page"
+import RaceDetailPage from "./pages/race-detail-page"
+import GaragePage from "./pages/garage-page"
+import SeasonPage from "./pages/season-page"
 
 // Layout wrapping the 8D Background and the Nav
 const RootLayout = () => {
@@ -18,15 +22,6 @@ const RootLayout = () => {
   )
 }
 
-// Home Route
-const Home = () => {
-  return (
-    <div className="w-full">
-      <HeroSection />
-    </div>
-  )
-}
-
 // Router configuration
 const router = createBrowserRouter([
   {
@@ -35,8 +30,24 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <HomePage />,
       },
+      {
+        path: "calendar",
+        element: <CalendarPage />,
+      },
+      {
+        path: "calendar/:raceId",
+        element: <RaceDetailPage />,
+      },
+      {
+        path: "mygarage",
+        element: <GaragePage />,
+      },
+      {
+        path: "myseason",
+        element: <SeasonPage />,
+      }
     ],
   },
 ])
