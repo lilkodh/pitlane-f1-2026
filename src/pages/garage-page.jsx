@@ -20,7 +20,7 @@ import gsap from 'gsap'
 import { Flip } from 'gsap/Flip'
 import { Link } from 'react-router'
 import { Trophy, ArrowRight, Heart } from 'lucide-react'
-import { usePitlaneStore } from '../stores/pitlane-store'
+import { useF1Context } from '../context/f1-context'
 import { RACES } from '../data/races'
 import RaceCard from '../components/race-card'
 
@@ -32,7 +32,7 @@ export default function GaragePage() {
   const emptyRef     = useRef()
   const gridRef      = useRef()
 
-  const { favorites } = usePitlaneStore()
+  const { favorites } = useF1Context()
   const favoriteRaces = RACES.filter(race => favorites.includes(race.id))
 
   /* ── Header entrance ────────────────────────────────────── */

@@ -8,7 +8,7 @@ import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { Link } from 'react-router'
 import { BookOpen, CheckCircle, ArrowRight, ChevronRight, Trophy } from 'lucide-react'
-import { usePitlaneStore } from '../stores/pitlane-store'
+import { useF1Context } from '../context/f1-context'
 import { RACES } from '../data/races'
 
 /* Progress bar component */
@@ -29,7 +29,7 @@ export default function SeasonPage() {
   const headerRef    = useRef()
   const emptyRef     = useRef()
 
-  const { watchedRaces } = usePitlaneStore()
+  const { watchedRaces } = useF1Context()
   const watchedData = RACES.filter(r => watchedRaces.includes(r.id))
   const pct = Math.round((watchedData.length / RACES.length) * 100)
 

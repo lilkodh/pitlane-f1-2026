@@ -16,7 +16,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Link } from 'react-router'
 import { Heart, MapPin, ChevronRight, Activity, Zap } from 'lucide-react'
-import { usePitlaneStore } from '../stores/pitlane-store'
+import { useF1Context } from '../context/f1-context'
 import { getRaceImage } from '../lib/race-assets'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -32,7 +32,7 @@ export default function RaceCard({ race, index = 0 }) {
   const glareRef = useRef()
   const imgRef   = useRef()
 
-  const { favorites, toggleFavorite } = usePitlaneStore()
+  const { favorites, toggleFavorite } = useF1Context()
   const isFav = favorites.includes(race.id)
   const glowColor = race.isSprint ? GLOW_YELLOW : GLOW_GREEN
 

@@ -62,7 +62,7 @@ export default function HeroSection() {
   const scanRef        = useRef()
   const [imgError, setImgError] = useState(false)
 
-  const nextRace = RACES[0]
+  const nextRace = RACES.find(r => r.id === 'aus-2026') || RACES[0]
   const { days, hours, minutes, seconds } = useCountdown(nextRace.date)
 
   useGSAP(() => {
@@ -118,9 +118,9 @@ export default function HeroSection() {
       
       {/* ── LAYER: SPATIAL TYPOGRAPHY ───────────────────── */}
       <div ref={titleRef} className="absolute z-[10] inset-0 flex flex-col items-center justify-center pointer-events-none select-none translate-y-[-10%]">
-        <h1 className="hero-text text-[clamp(4rem,10vw,12rem)] leading-[0.8] text-center">
-          <span className="text-white block drop-shadow-2xl">{splitTextToChars('THE FUTURE')}</span>
-          <span className="text-[#39FF88] block drop-shadow-[0_0_40px_rgba(57,255,136,0.4)] mt-2">{splitTextToChars('OF SPEED')}</span>
+        <h1 className="hero-text text-[12vw] leading-[0.8] text-center whitespace-nowrap">
+          <span className="text-white block drop-shadow-2xl">{splitTextToChars('THE NEW')}</span>
+          <span className="text-[#39FF88] block drop-shadow-[0_0_40px_rgba(57,255,136,0.4)] mt-2">{splitTextToChars('ERA')}</span>
         </h1>
       </div>
 

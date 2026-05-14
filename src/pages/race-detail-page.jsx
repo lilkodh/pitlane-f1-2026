@@ -31,7 +31,7 @@ import {
   Zap, Wind, BarChart2, Radio,
 } from 'lucide-react'
 import { RACES } from '../data/races'
-import { usePitlaneStore } from '../stores/pitlane-store'
+import { useF1Context } from '../context/f1-context'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -64,7 +64,7 @@ export default function RaceDetailPage() {
   const titleRef     = useRef()
   const watchBtnRef  = useRef()
 
-  const { watchedRaces, toggleWatched } = usePitlaneStore()
+  const { watchedRaces, toggleWatched } = useF1Context()
   const isWatched = watchedRaces.includes(race?.id)
 
   useGSAP(() => {
