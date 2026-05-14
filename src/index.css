@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply antialiased scroll-smooth;
+  }
+  body {
+    @apply min-h-screen bg-carbon text-titanium font-sans;
+    background-image: theme(backgroundImage.carbon-radial);
+    background-attachment: fixed;
+  }
+  #root {
+    @apply min-h-screen;
+  }
+}
+
+@layer components {
+  .liquid-glass {
+    @apply border border-white/10 bg-white/5 shadow-inner backdrop-blur-md;
+  }
+  .liquid-glass-strong {
+    @apply border border-f1red/40 bg-white/[0.07] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-lg;
+  }
+  .text-gradient-red {
+    @apply bg-gradient-to-r from-f1red to-red-400 bg-clip-text text-transparent;
+  }
+}
