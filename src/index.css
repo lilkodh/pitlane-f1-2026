@@ -6,24 +6,92 @@
   html {
     @apply antialiased scroll-smooth;
   }
+
   body {
-    @apply min-h-screen bg-carbon text-titanium font-sans;
-    background-image: theme(backgroundImage.carbon-radial);
+    @apply min-h-screen bg-carbon font-sans text-titanium;
+    background-image: theme(backgroundImage.pit-linear), theme(backgroundImage.carbon-radial);
     background-attachment: fixed;
   }
+
+  body::before {
+    content: '';
+    @apply pointer-events-none fixed inset-0 z-0 bg-pit-radial opacity-100;
+  }
+
   #root {
-    @apply min-h-screen;
+    @apply relative z-[1] min-h-screen;
+  }
+
+  :focus-visible {
+    @apply rounded outline outline-2 outline-offset-2 outline-neon-blue;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
 @layer components {
+  /** Subtle circuit grid — sits under glass UI */
+  .pit-circuit-bg {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.04'%3E%3Cpath d='M0 40h80M40 0v80'/%3E%3Ccircle cx='40' cy='40' r='38' stroke-dasharray='4 6'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /** Frosted glass — Stitch: 8% white, blur, hairline border */
   .liquid-glass {
-    @apply border border-white/10 bg-white/5 shadow-inner backdrop-blur-md;
+    @apply border border-white/10 bg-white/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-md transition-shadow duration-300 ease-pit;
   }
+
+  .liquid-glass:hover {
+    @apply shadow-glow-subtle;
+  }
+
   .liquid-glass-strong {
-    @apply border border-f1red/40 bg-white/[0.07] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-lg;
+    @apply border border-f1red/35 bg-white/[0.07] shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-lg transition-shadow duration-300 ease-pit;
   }
+
+  .liquid-glass-strong:hover {
+    @apply shadow-glow-medium;
+  }
+
   .text-gradient-red {
-    @apply bg-gradient-to-r from-f1red to-red-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-f1red via-red-500 to-red-400 bg-clip-text text-transparent;
+  }
+
+  .pit-metallic-text {
+    @apply bg-gradient-to-b from-titanium via-titanium to-titanium/60 bg-clip-text text-transparent;
+  }
+
+  .pit-nav-link {
+    @apply relative inline-flex items-center transition-colors duration-200 ease-pit;
+  }
+
+  .pit-nav-link[aria-current='page']::after {
+    content: '';
+    @apply absolute bottom-0 left-2 right-2 h-0.5 rounded-full bg-f1red shadow-glow-red;
+    animation: pit-nav-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pit-nav-glow {
+    0%,
+    100% {
+      box-shadow: 0 0 8px rgba(220, 0, 0, 0.45);
+    }
+    50% {
+      box-shadow: 0 0 16px rgba(0, 217, 255, 0.35);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pit-nav-link[aria-current='page']::after {
+    animation: none;
   }
 }

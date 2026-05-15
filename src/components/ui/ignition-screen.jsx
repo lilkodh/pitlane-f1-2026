@@ -4,27 +4,34 @@ import { useGSAP } from '@gsap/react';
 
 const PHRASES = ['SYSTEMS CHECK', 'TYRE WARM-UP', 'LIGHTS OUT'];
 
+/** Stitch: 000 → 100 km/h over 2.5s, then GSAP cinematic exit */
+const COUNTER_MS = 2500;
+
 export function IgnitionScreen({ onComplete }) {
   const rootRef = useRef(null);
   const barRef = useRef(null);
   const phraseRef = useRef(null);
   const [speed, setSpeed] = useState(0);
   const [phraseIndex, setPhraseIndex] = useState(0);
-  const [exiting, setExiting] = useState(false);
   const finishedRef = useRef(false);
 
   useEffect(() => {
     let raf;
     const t0 = performance.now();
-    const duration = 1600;
     const loop = (t) => {
-      const p = Math.min(1, (t - t0) / duration);
+      const p = Math.min(1, (t - t0) / COUNTER_MS);
       setSpeed(Math.round(p * 100));
       if (p < 1) raf = requestAnimationFrame(loop);
-      else if (!finishedRef.current) {
+      else if (!finishedRef.current && rootRef.current) {
         finishedRef.current = true;
-        setExiting(true);
-        window.setTimeout(() => onComplete?.(), 480);
+        gsap.to(rootRef.current, {
+          y: -48,
+          opacity: 0,
+          filter: 'blur(10px)',
+          duration: 0.55,
+          ease: 'power2.inOut',
+          onComplete: () => onComplete?.(),
+        });
       }
     };
     raf = requestAnimationFrame(loop);
@@ -41,7 +48,11 @@ export function IgnitionScreen({ onComplete }) {
   useGSAP(
     () => {
       if (barRef.current) {
-        gsap.fromTo(barRef.current, { scaleX: 0.02 }, { scaleX: 1, duration: 1.55, ease: 'power2.inOut' });
+        gsap.fromTo(
+          barRef.current,
+          { scaleX: 0.02 },
+          { scaleX: 1, duration: 2.45, ease: 'power2.inOut' }
+        );
       }
     },
     { scope: rootRef }
@@ -62,12 +73,10 @@ export function IgnitionScreen({ onComplete }) {
   return (
     <div
       ref={rootRef}
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-carbon transition-opacity duration-500 ${
-        exiting ? 'opacity-0' : 'opacity-100'
-      }`}
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-carbon"
       role="status"
       aria-live="assertive"
-      aria-label="Séquence de démarrage Pitlane"
+      aria-label="Pitlane startup sequence"
     >
       <p className="font-mono text-sm tracking-[0.35em] text-glow/90">IGNITION</p>
       <p

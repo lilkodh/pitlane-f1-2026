@@ -3,10 +3,10 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
 const HEADLINES = [
-  'Cadillac débarque en Formule 1 — onze constructeurs en piste',
-  'Réglementation 2026 : aéro active, carburant durable à 100 %',
-  'Madrid rejoint le calendrier — nouveau tracé urbain',
-  'Norris champion en titre — la saison 2026 s’annonce ouverte',
+  'Cadillac joins Formula 1 — eleven constructors on the grid',
+  '2026 rules: active aero, 100% sustainable fuel',
+  'Madrid joins the calendar — new urban layout',
+  'Defending champion Lando Norris — 2026 is wide open',
 ];
 
 export function NewsMarquee() {

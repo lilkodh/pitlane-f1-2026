@@ -5,15 +5,20 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Flip } from 'gsap/Flip';
 import { RouterProvider } from 'react-router-dom';
 import './index.css';
-import { router } from './router.jsx';
+import { router } from './router';
 
 gsap.registerPlugin(ScrollTrigger, Flip);
 
 if (import.meta.env.DEV) {
-  window.gsap = gsap;
+  (window as Window & { gsap?: typeof gsap }).gsap = gsap;
 }
 
-createRoot(document.getElementById('root')).render(
+const rootEl = document.getElementById('root');
+if (!rootEl) {
+  throw new Error('Root element #root not found');
+}
+
+createRoot(rootEl).render(
   <StrictMode>
     <RouterProvider router={router} />
   </StrictMode>
