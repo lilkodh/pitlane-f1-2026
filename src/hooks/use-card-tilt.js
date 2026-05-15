@@ -47,15 +47,16 @@ export function useCardTilt(intensity = 15) {
         const glareX = (x + 0.5) * 100;
         const glareY = (y + 0.5) * 100;
         gsap.to(glare, {
-          background: `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.15) 0%, transparent 60%)`,
+          background: `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.4) 0%, rgba(57,255,136,0.1) 40%, transparent 80%)`,
           opacity: 1,
           duration: 0.3,
         });
       }
 
-      // Intensify green glow on hover
+      // Intensify green glow on hover (Telemetry Green)
       gsap.to(card, {
-        boxShadow: `0 0 40px rgba(57,255,136,0.25), 0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(57,255,136,0.2)`,
+        boxShadow: `0 0 50px rgba(57,255,136,0.3), 0 30px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(57,255,136,0.4)`,
+        borderColor: 'rgba(57,255,136,0.5)',
         duration: 0.3,
       });
     });

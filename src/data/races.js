@@ -24,8 +24,9 @@ export const races = [
     winner: 'Lando Norris',
     winnerTeam: 'McLaren',
     heroColor: '#FF8000',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1470290371409-7032218cd236?auto=format&fit=crop&q=80&w=800',
     description: 'The season opener under the Australian sun. Albert Park smooth tarmac and fast sweepers make it a fan favourite. 2026 sees the debut of next-gen active aero at full speed.',
+    type: 'Street Circuit',
   },
   {
     id: 'china',
@@ -47,8 +48,9 @@ export const races = [
     winner: 'Max Verstappen',
     winnerTeam: 'Red Bull Racing',
     heroColor: '#3671C6',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1474181487882-5abf3f0ba6c2?auto=format&fit=crop&q=80&w=800',
     description: 'Shanghai iconic twisting layout rewards precision over raw power — perfect territory for the new hybrid energy deployment systems.',
+    type: 'Permanent Circuit',
   },
   {
     id: 'japan',
@@ -70,8 +72,9 @@ export const races = [
     winner: 'George Russell',
     winnerTeam: 'Mercedes',
     heroColor: '#27F4D2',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80&w=800',
     description: 'The temple of speed. Suzuka\'s 130R corner becomes even more spectacular with active aero engaging at 320+ km/h.',
+    type: 'Permanent (Figure-8)',
   },
   {
     id: 'bahrain',
@@ -93,8 +96,9 @@ export const races = [
     winner: 'Charles Leclerc',
     winnerTeam: 'Ferrari',
     heroColor: '#E8002D',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1549944850-84e00be4203b?auto=format&fit=crop&q=80&w=800',
     description: 'The desert night race. Under floodlights, the 2026 cars illuminate the Sakhir darkness with active aero vanes dancing at every corner.',
+    type: 'Night Race',
   },
   {
     id: 'saudi-arabia',
@@ -116,7 +120,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#00A86B',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1589146193910-8583485f8185?auto=format&fit=crop&q=80&w=800',
     description: 'The fastest street circuit on the calendar. Jeddah\'s walls are unforgiving — one mistake ends your race.',
   },
   {
@@ -139,7 +143,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#FF6B35',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1514214246283-d427a95c5d2f?auto=format&fit=crop&q=80&w=800',
     description: 'Neon city vibes and hard racing. Miami\'s sprint weekend adds extra championship tension under the Florida sun.',
   },
   {
@@ -162,7 +166,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#E8002D',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&q=80&w=800',
     description: 'The cathedral of motorsport. Tifosi pack the grandstands as Ferrari fights for Italian glory on home soil.',
   },
   {
@@ -185,7 +189,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#CC0000',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1555431189-d58b41234ab1?auto=format&fit=crop&q=80&w=800',
     description: 'The jewel in the crown. Racing through Monaco\'s narrow streets is the ultimate test of nerve and millimetre precision.',
   },
   {
@@ -208,7 +212,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#FFC000',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1583997051651-8ca1bb936701?auto=format&fit=crop&q=80&w=800',
     description: 'The benchmark circuit. Barcelona\'s technical layout exposes every weakness in your package, from aerodynamic efficiency to tyre management.',
   },
   {
@@ -231,7 +235,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#FF0000',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1519177224410-b04763ed240d?auto=format&fit=crop&q=80&w=800',
     description: 'The wall of champions awaits. Montreal\'s chicanes and DRS zones create one of the year\'s most unpredictable races.',
   },
   {
@@ -254,7 +258,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#3671C6',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1516550893923-42d28e5677af?auto=format&fit=crop&q=80&w=800',
     description: 'Three days of pure F1 theatre in the Styrian mountains. Sprint shootout at altitude under a sea of orange fans.',
   },
   {
@@ -277,7 +281,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#FF6B6B',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&q=80&w=800',
     description: 'Home of British motorsport. Silverstone\'s high-speed curves are where legends are made and championships defined.',
   },
   {
@@ -300,7 +304,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#FFC000',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1541829070764-84a7d30dee3f?auto=format&fit=crop&q=80&w=800',
     description: 'Eau Rouge, Raidillon, Pouhon — Spa-Francorchamps is Formula 1 at its most raw and beautiful.',
   },
   {
@@ -323,7 +327,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#27F4D2',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1551840231-b5df018f2f82?auto=format&fit=crop&q=80&w=800',
     description: 'The Monaco of high-speed circuits. Tight, twisty Hungaroring punishes any car setup compromise mercilessly.',
   },
   {
@@ -346,7 +350,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#FF6600',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1512470876302-972fad2aa9dd?auto=format&fit=crop&q=80&w=800',
     description: 'Orange army territory. Zandvoort\'s unique banked corners and passionate Dutch fans create an electric atmosphere.',
   },
   {
@@ -369,7 +373,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#E8002D',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1525874684015-58379d421a52?auto=format&fit=crop&q=80&w=800',
     description: 'The Temple of Speed. Monza\'s legendary straights and chicanes define the limits of modern Formula 1 machinery.',
   },
   {
@@ -392,7 +396,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#00A86B',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1523438097201-5121b33c30ed?auto=format&fit=crop&q=80&w=800',
     description: 'Chaos on the Caspian. Baku\'s castle section and long pit straight guarantee drama, safety cars, and spectacular battles.',
   },
   {
@@ -415,8 +419,9 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#FFD60A',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1525625239911-376c500730d4?auto=format&fit=crop&q=80&w=800',
     description: 'The night race jewel. Singapore\'s floodlit cityscape and brutally physical circuit deliver F1\'s most demanding race weekend.',
+    type: 'Night Street Circuit',
   },
   {
     id: 'usa',
@@ -438,7 +443,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#FF6B35',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1531219572328-a0171b4448a3?auto=format&fit=crop&q=80&w=800',
     description: 'Texas-sized F1 action. COTA\'s elevation changes, the legendary Turn 1 and sprint format make Austin unmissable.',
   },
   {
@@ -461,7 +466,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#CC0000',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?auto=format&fit=crop&q=80&w=800',
     description: 'High altitude drama. At 2,285 metres above sea level, engine cooling and aerodynamic grip behave unlike anywhere else.',
   },
   {
@@ -484,7 +489,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#009C3B',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&q=80&w=800',
     description: 'Interlagos always delivers. Unpredictable weather, passionate Brazilian fans, and championship-deciding drama year after year.',
   },
   {
@@ -508,7 +513,7 @@ export const races = [
     winnerTeam: null,
     heroColor: '#C7003C',
     isDebut: true,
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&q=80&w=800',
     description: '🆕 THE DEBUT. Madrid joins the F1 calendar as a brand-new street circuit threading through the Spanish capital. History will be made here.',
   },
   {
@@ -531,8 +536,9 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#A855F7',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1581351123004-757df051db8e?auto=format&fit=crop&q=80&w=800',
     description: 'The glittering grand prix. Racing down the Las Vegas Strip at 340 km/h with the neon skyline as a backdrop is pure spectacle.',
+    type: 'Night Street Circuit',
   },
   {
     id: 'abu-dhabi',
@@ -554,7 +560,7 @@ export const races = [
     winner: null,
     winnerTeam: null,
     heroColor: '#00A0D1',
-    trackImage: null,
+    cityImage: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=800',
     description: 'Lights out on the 2026 season. Yas Marina\'s floodlit finale decides fates under the Abu Dhabi sunset.',
   },
 ];

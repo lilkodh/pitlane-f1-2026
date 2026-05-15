@@ -18,12 +18,14 @@ export default function RaceDetailPage() {
   const isWatched = useFavoritesStore(s => s.isWatched(raceId));
 
   useGSAP(() => {
+    if (!pageRef.current) return;
+    
     gsap.fromTo(
-      pageRef.current.querySelectorAll('.detail-reveal'),
+      '.detail-reveal',
       { y: 40, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.7, stagger: 0.1, ease: 'power3.out', delay: 0.1 }
     );
-  }, { scope: pageRef });
+  }, { scope: pageRef, dependencies: [raceId] });
 
   if (!race) {
     return (

@@ -22,6 +22,8 @@ export default function CalendarPage() {
   const headerRef = useRef(null);
 
   useGSAP(() => {
+    if (!headerRef.current) return;
+    
     gsap.fromTo(
       headerRef.current.children,
       { y: 40, opacity: 0 },
@@ -129,7 +131,7 @@ export default function CalendarPage() {
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
             {filtered.map((race, i) => (
-              <RaceCard key={race.id} race={race} index={i} />
+              <RaceCard key={race.id} race={race} index={i} image={race.cityImage} />
             ))}
           </div>
         )}

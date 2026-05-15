@@ -10,69 +10,75 @@ import heroCarImg from '../assets/hero-car.png';
 
 // ============================================================
 // Hero — 8D cinematic entrance for the Pitlane home page
-// Layers: WebGL particles → gradient → typography → glass panel
+// Layers: WebGL particles → Typography (Behind) → Hero Car → Typography (Front)
 // ============================================================
 
-const HEADLINE_WORDS = ['BUILD', 'THE', 'FUTURE'];
-const SUBHEAD = 'OF SPEED.';
+const HEADLINE = "PITLANE";
+const SUBHEAD = "F1 2026";
 
 export default function Hero() {
   const heroRef = useRef(null);
   const titleRef = useRef(null);
-  const subRef = useRef(null);
+  const carRef = useRef(null);
   const panelRef = useRef(null);
   const taglineRef = useRef(null);
-  const carRef = useRef(null);
   const nextRace = getNextRace();
 
   useGSAP(() => {
-    const tl = gsap.timeline({ delay: 0.3 });
+    const tl = gsap.timeline({ delay: 0.5 });
 
-    // 1. Tagline fades in first
-    tl.fromTo(taglineRef.current,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
+    // 1. Initial State: Typography splits and flies in from Z
+    const chars = titleRef.current.querySelectorAll('.hero-char');
+    tl.fromTo(chars,
+      { 
+        opacity: 0, 
+        z: 1000, 
+        rotateX: 90, 
+        scale: 2 
+      },
+      { 
+        opacity: 1, 
+        z: 0, 
+        rotateX: 0, 
+        scale: 1, 
+        duration: 1.2, 
+        stagger: 0.05, 
+        ease: 'expo.out' 
+      }
     );
 
-    // 2. Each headline word slams in from Z-axis (depth)
-    tl.fromTo(
-      titleRef.current.querySelectorAll('.hero-word'),
-      { z: -400, opacity: 0, rotateX: 45, scale: 0.5 },
-      { z: 0, opacity: 1, rotateX: 0, scale: 1, duration: 0.9, stagger: 0.18, ease: 'expo.out', transformPerspective: 1200 },
-      '-=0.2'
+    // 2. Car reveal — accelerating in from bottom
+    tl.fromTo(carRef.current,
+      { opacity: 0, scale: 0.6, y: 200 },
+      { opacity: 1, scale: 1, y: 0, duration: 1.5, ease: 'power4.out' },
+      '-=0.8'
     );
 
-    // 3. Sub-heading slides in
-    tl.fromTo(subRef.current,
-      { x: -60, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.8, ease: 'power3.out' },
-      '-=0.4'
-    );
-
-    // 4. Glass panel rises from bottom
-    tl.fromTo(panelRef.current,
-      { y: 60, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' },
+    // 3. Tagline & Panel rise
+    tl.fromTo([taglineRef.current, panelRef.current],
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: 'power3.out' },
       '-=0.5'
     );
 
-    // 5. Slow parallax on scroll
+    // 4. Parallax Scroll Logic
+    // Typography moves slower (depth)
     gsap.to(titleRef.current, {
-      y: -120,
-      ease: 'none',
+      y: -200,
+      opacity: 0.2,
       scrollTrigger: {
         trigger: heroRef.current,
         start: 'top top',
         end: 'bottom top',
-        scrub: 1.5,
+        scrub: true,
       },
     });
 
-    // Car moves faster and scales slightly for dynamic 3D depth
+    // Car moves FASTER and SCALES UP (approaching camera)
     gsap.to(carRef.current, {
-      y: -60,
-      scale: 1.05,
-      ease: 'none',
+      y: -150,
+      scale: 1.3,
+      rotateX: 5,
       scrollTrigger: {
         trigger: heroRef.current,
         start: 'top top',
@@ -81,11 +87,6 @@ export default function Hero() {
       },
     });
 
-    // Initial car reveal
-    gsap.fromTo(carRef.current,
-      { opacity: 0, scale: 0.8, y: 50 },
-      { opacity: 1, scale: 1, y: 0, duration: 1.2, ease: 'power3.out', delay: 0.4 }
-    );
   }, { scope: heroRef });
 
   return (
@@ -93,205 +94,226 @@ export default function Hero() {
       ref={heroRef}
       style={{
         position: 'relative',
-        minHeight: '100vh',
+        minHeight: '130vh', // Extra height for scroll momentum
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden',
-        paddingTop: '72px',
+        background: '#050505',
       }}
     >
-      {/* Layer 1 — WebGL Particle Field */}
+      {/* Layer 1: WebGL Background */}
       <ParticleBackground />
 
-      {/* Layer 2 — Radial background gradient */}
+      {/* Layer 2: Subtle Depth Gradient */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 1,
-        background: 'radial-gradient(ellipse 80% 60% at 50% 40%, rgba(57,255,136,0.06) 0%, rgba(5,5,5,0) 70%)',
+        background: 'radial-gradient(circle at 50% 50%, rgba(57,255,136,0.08) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
 
-      {/* Layer 2b — bottom fade */}
-      <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, height: '40%', zIndex: 2,
-        background: 'linear-gradient(to bottom, transparent, #050505)',
-        pointerEvents: 'none',
-      }} />
-
-      {/* Layer 3 — Massive Hero Car Render */}
-      <img
-        ref={carRef}
-        src={heroCarImg}
-        alt="2026 Formula 1 Car"
+      {/* Layer 3: Massive Typography (Split Text) */}
+      <div 
+        ref={titleRef}
         style={{
           position: 'absolute',
-          bottom: '15%',
+          top: '35%',
           left: '50%',
-          transform: 'translateX(-50%)',
-          width: '90%',
-          maxWidth: '1400px',
+          transform: 'translate(-50%, -50%)',
           zIndex: 2,
+          perspective: '1200px',
+          textAlign: 'center',
+          width: '100%',
           pointerEvents: 'none',
-          objectFit: 'contain',
-          mixBlendMode: 'screen',
         }}
-      />
+      >
+        <div style={{ transformStyle: 'preserve-3d' }}>
+          {HEADLINE.split('').map((char, i) => (
+            <span 
+              key={i} 
+              className="hero-char"
+              style={{
+                display: 'inline-block',
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontSize: 'clamp(6rem, 18vw, 18rem)',
+                fontWeight: 900,
+                color: '#F0F0F0',
+                letterSpacing: '-0.05em',
+                lineHeight: 1,
+              }}
+            >
+              {char}
+            </span>
+          ))}
+        </div>
+        <div 
+          style={{
+            fontFamily: "'Space Grotesk', sans-serif",
+            fontSize: '1.5rem',
+            fontWeight: 700,
+            color: '#39FF88',
+            letterSpacing: '0.5em',
+            marginTop: '-20px',
+            opacity: 0.8
+          }}
+        >
+          {SUBHEAD}
+        </div>
+      </div>
 
-      {/* Layer 4 — Content */}
+      {/* Layer 4: The 8D Hero Car */}
+      <div
+        ref={carRef}
+        style={{
+          position: 'relative',
+          zIndex: 4,
+          width: '100%',
+          maxWidth: '1600px',
+          display: 'flex',
+          justifyContent: 'center',
+          pointerEvents: 'none',
+          marginTop: '100px',
+        }}
+      >
+        <img
+          src={heroCarImg}
+          alt="2026 F1 Concept"
+          style={{
+            width: '95%',
+            height: 'auto',
+            filter: 'drop-shadow(0 0 100px rgba(57,255,136,0.2))',
+            mixBlendMode: 'screen', // Blends black background if present
+          }}
+        />
+      </div>
+
+      {/* Layer 5: Floating Content Overlay */}
       <div style={{
-        position: 'relative', zIndex: 3,
-        width: '100%', maxWidth: '1200px',
-        margin: '0 auto', padding: '0 32px',
-        display: 'flex', flexDirection: 'column',
-        alignItems: 'flex-start', gap: '32px',
+        position: 'absolute',
+        bottom: '15%',
+        left: '5%',
+        right: '5%',
+        zIndex: 5,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '40px',
       }}>
-
-        {/* Season tagline */}
-        <div ref={taglineRef} style={{ opacity: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div style={{ width: '32px', height: '2px', background: '#39FF88' }} />
+        <div ref={taglineRef} style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <div style={{ width: '40px', height: '2px', background: '#39FF88' }} />
           <span style={{
             fontFamily: "'Space Grotesk', sans-serif",
-            fontSize: '0.7rem', fontWeight: 700,
-            letterSpacing: '0.25em', color: '#39FF88',
+            fontSize: '0.8rem',
+            fontWeight: 700,
+            letterSpacing: '0.3em',
+            color: '#39FF88',
             textTransform: 'uppercase',
           }}>
-            2026 FIA FORMULA 1 WORLD CHAMPIONSHIP
+            The Future of Racing is Here
           </span>
         </div>
 
-        {/* Layer 4 — Massive headline */}
-        <div
-          ref={titleRef}
-          style={{ transformStyle: 'preserve-3d' }}
-        >
-          {HEADLINE_WORDS.map((word) => (
-            <div
-              key={word}
-              className="hero-word"
-              style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: 'clamp(4rem, 12vw, 12rem)',
-                fontWeight: 700,
-                lineHeight: 0.9,
-                letterSpacing: '-0.04em',
-                color: '#F0F0F0',
-                display: 'block',
-                opacity: 0,
-                transformStyle: 'preserve-3d',
-              }}
-            >
-              {word}
-            </div>
-          ))}
-
-          {/* Sub-heading */}
-          <div
-            ref={subRef}
-            style={{
-              fontFamily: "'Space Grotesk', sans-serif",
-              fontSize: 'clamp(4rem, 12vw, 12rem)',
-              fontWeight: 700,
-              lineHeight: 0.9,
-              letterSpacing: '-0.04em',
-              color: '#39FF88',
-              display: 'block',
-              opacity: 0,
-              textShadow: '0 0 80px rgba(57,255,136,0.4), 0 0 200px rgba(57,255,136,0.1)',
-            }}
-          >
-            {SUBHEAD}
-          </div>
-        </div>
-
-        {/* Layer 5 — Glass panel (next race info + countdown) */}
         {nextRace && (
           <div
             ref={panelRef}
             style={{
-              opacity: 0,
-              background: 'rgba(11,11,11,0.55)',
-              backdropFilter: 'blur(24px)',
-              WebkitBackdropFilter: 'blur(24px)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: '16px',
-              padding: '28px 32px',
+              background: 'rgba(11, 11, 11, 0.4)',
+              backdropFilter: 'blur(32px)',
+              WebkitBackdropFilter: 'blur(32px)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '24px',
+              padding: '32px 40px',
               display: 'flex',
-              flexWrap: 'wrap',
-              gap: '40px',
               alignItems: 'center',
-              maxWidth: '700px',
+              gap: '60px',
+              maxWidth: '850px',
+              boxShadow: '0 30px 60px rgba(0,0,0,0.5)',
             }}
           >
-            {/* Next race info */}
-            <div style={{ flex: '1 1 200px' }}>
+            <div style={{ flex: 1 }}>
               <p style={{
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: '0.6rem', fontWeight: 700,
-                letterSpacing: '0.2em', color: 'rgba(240,240,240,0.35)',
-                marginBottom: '8px', textTransform: 'uppercase',
+                fontSize: '0.7rem', fontWeight: 700,
+                color: 'rgba(255,255,255,0.4)',
+                letterSpacing: '0.15em', marginBottom: '10px'
               }}>
-                NEXT RACE — RD. {nextRace.round}
+                UPCOMING GRAND PRIX
               </p>
-              <h2 style={{
+              <h3 style={{
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: '1.35rem', fontWeight: 700,
-                color: '#F0F0F0', marginBottom: '6px',
-                letterSpacing: '-0.01em',
+                fontSize: '1.8rem', fontWeight: 800,
+                color: '#FFF', letterSpacing: '-0.02em'
               }}>
                 {nextRace.flag} {nextRace.name}
-              </h2>
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', color: 'rgba(240,240,240,0.45)' }}>
-                  <MapPin size={11} /> {nextRace.circuit}
-                </span>
-                {nextRace.isSprint && (
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.65rem', fontWeight: 700, color: '#FFD60A' }}>
-                    <Zap size={11} /> SPRINT WEEKEND
-                  </span>
-                )}
-              </div>
+              </h3>
             </div>
+            
+            <div style={{ width: '1px', height: '60px', background: 'rgba(255,255,255,0.1)' }} />
 
-            {/* Divider */}
-            <div style={{ width: '1px', height: '60px', background: 'rgba(255,255,255,0.07)' }} className="hidden-mobile" />
+            <CountdownTimer targetDate={nextRace.date} />
 
-            {/* Countdown */}
-            <CountdownTimer targetDate={nextRace.date} label="RACE STARTS IN" />
-
-            {/* CTA */}
             <Link
               to={`/calendar/${nextRace.id}`}
               style={{
-                display: 'flex', alignItems: 'center', gap: '6px',
-                background: '#39FF88', color: '#050505',
+                background: '#39FF88',
+                color: '#050505',
+                padding: '16px 28px',
+                borderRadius: '12px',
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: '0.8rem', fontWeight: 700,
-                letterSpacing: '0.05em', padding: '10px 18px',
-                borderRadius: '8px', textDecoration: 'none',
-                transition: 'all 0.2s ease', whiteSpace: 'nowrap',
+                fontWeight: 800,
+                fontSize: '0.9rem',
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                transition: 'transform 0.3s ease',
               }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
             >
-              RACE INFO <ChevronRight size={14} />
+              RACE CENTER <ChevronRight size={18} />
             </Link>
           </div>
         )}
       </div>
 
-      {/* Scroll hint */}
+      {/* Scroll Indicator */}
       <div style={{
-        position: 'absolute', bottom: '32px', left: '50%',
-        transform: 'translateX(-50%)', zIndex: 3,
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
-        animation: 'scrollBounce 2s ease-in-out infinite',
+        position: 'absolute',
+        bottom: '40px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 6,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '10px',
+        opacity: 0.4
       }}>
-        <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.6rem', letterSpacing: '0.2em', color: 'rgba(240,240,240,0.25)' }}>SCROLL</span>
-        <div style={{ width: '1px', height: '40px', background: 'linear-gradient(to bottom, rgba(57,255,136,0.5), transparent)' }} />
+        <div style={{
+          width: '24px',
+          height: '40px',
+          border: '2px solid #F0F0F0',
+          borderRadius: '12px',
+          position: 'relative'
+        }}>
+          <div style={{
+            width: '4px',
+            height: '8px',
+            background: '#39FF88',
+            borderRadius: '2px',
+            position: 'absolute',
+            top: '8px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            animation: 'scrollAnim 2s infinite'
+          }} />
+        </div>
       </div>
 
       <style>{`
-        @keyframes scrollBounce {
-          0%, 100% { transform: translateX(-50%) translateY(0); }
-          50% { transform: translateX(-50%) translateY(8px); }
+        @keyframes scrollAnim {
+          0% { top: 8px; opacity: 1; }
+          100% { top: 24px; opacity: 0; }
         }
       `}</style>
     </section>
