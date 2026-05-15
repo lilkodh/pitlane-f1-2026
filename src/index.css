@@ -1,0 +1,161 @@
+@import "tailwindcss";
+
+/* ============================================
+   PITLANE F1 2026 — GLOBAL DESIGN SYSTEM
+   ============================================ */
+
+/* --- Custom Properties (Design Tokens) --- */
+:root {
+  /* Brand Colors */
+  --color-bg-base: #050505;
+  --color-bg-surface: #0b0b0b;
+  --color-bg-card: rgba(11, 11, 11, 0.4);
+  --color-green: #39FF88;
+  --color-yellow: #FFD60A;
+  --color-red: #E8002D;
+  --color-white: #F0F0F0;
+  --color-muted: rgba(240, 240, 240, 0.4);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(57, 255, 136, 0.3);
+
+  /* Glass */
+  --glass-bg: rgba(11, 11, 11, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: blur(24px);
+
+  /* Typography */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Spacing */
+  --nav-height: 72px;
+}
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-bg-base);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* --- Custom Scrollbar --- */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--color-bg-base); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-green);
+  border-radius: 2px;
+}
+
+/* --- Selection --- */
+::selection {
+  background: rgba(57, 255, 136, 0.2);
+  color: var(--color-green);
+}
+
+/* --- Utility Classes --- */
+
+/* Glassmorphism Panel */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+}
+
+/* Green Glow Text */
+.text-glow-green {
+  color: var(--color-green);
+  text-shadow: 0 0 20px rgba(57, 255, 136, 0.6), 0 0 60px rgba(57, 255, 136, 0.2);
+}
+
+/* Yellow Glow Text */
+.text-glow-yellow {
+  color: var(--color-yellow);
+  text-shadow: 0 0 20px rgba(255, 214, 10, 0.6), 0 0 60px rgba(255, 214, 10, 0.2);
+}
+
+/* Green Box Shadow Glow */
+.glow-green {
+  box-shadow: 0 0 30px rgba(57, 255, 136, 0.15), 0 0 80px rgba(57, 255, 136, 0.05);
+}
+
+/* Neon Green Border */
+.border-neon-green {
+  border-color: var(--color-green);
+  box-shadow: 0 0 12px rgba(57, 255, 136, 0.3), inset 0 0 12px rgba(57, 255, 136, 0.05);
+}
+
+/* Sprint Weekend Yellow Pulse */
+.sprint-pulse {
+  animation: sprintPulse 2.5s ease-in-out infinite;
+}
+@keyframes sprintPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 214, 10, 0.2), 0 0 30px rgba(255, 214, 10, 0.08); }
+  50% { box-shadow: 0 0 25px rgba(255, 214, 10, 0.5), 0 0 60px rgba(255, 214, 10, 0.2); }
+}
+
+/* Scan-line overlay */
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.05) 2px,
+    rgba(0, 0, 0, 0.05) 4px
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Hero gradient overlay */
+.hero-gradient {
+  background: linear-gradient(
+    to bottom,
+    rgba(5, 5, 5, 0) 0%,
+    rgba(5, 5, 5, 0.4) 50%,
+    rgba(5, 5, 5, 0.95) 100%
+  );
+}
+
+/* Invisible initially (for GSAP reveal) */
+.gsap-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Noise texture overlay */
+.noise-overlay::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* Prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
