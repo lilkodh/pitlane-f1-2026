@@ -1,216 +1,156 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, Zap, RefreshCcw, Flag, Play } from 'lucide-react';
+import { Trophy, Flag, RefreshCcw, Play } from 'lucide-react';
 import { useThemeStore } from '../stores/theme-store.js';
 
 // ============================================================
-// F1 PITLANE ARCADE — High-Fidelity Mini-Game (Classic Dodge)
+// F1 PITLANE ARCADE — Hyper-Realistic Machine Edition
 // ============================================================
 
 export default function RaceGamePage() {
   const canvasRef = useRef(null);
-  const [gameState, setGameState] = useState('IDLE'); // IDLE, PLAYING, GAMEOVER
+  const [gameState, setGameState] = useState('IDLE'); 
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
+  const [lane, setLane] = useState(1);
   const currentTheme = useThemeStore((s) => s.currentTheme);
   
   const requestRef = useRef();
   const gameRef = useRef({
-    player: { x: 130, y: 500, targetX: 130, width: 40, height: 80 },
+    player: { x: 125, y: 500, targetX: 125, width: 50, height: 100 },
     obstacles: [],
-    speed: 8,
+    speed: 10,
     distance: 0,
-    particles: [],
     frame: 0
   });
 
-  // Game Loop
   const update = () => {
     if (gameState !== 'PLAYING') return;
-
     const game = gameRef.current;
     game.frame++;
     game.distance += game.speed / 10;
     setScore(Math.floor(game.distance));
-
-    // Player smoothing
     game.player.x += (game.player.targetX - game.player.x) * 0.15;
+    game.speed = 10 + (game.distance / 150);
 
-    // Difficulty scaling
-    game.speed = 8 + (game.distance / 100);
-
-    // Spawn obstacles
-    if (game.frame % Math.max(20, Math.floor(60 - game.speed)) === 0) {
-      const lane = Math.floor(Math.random() * 3);
+    if (game.frame % Math.max(25, Math.floor(65 - game.speed)) === 0) {
+      const l = Math.floor(Math.random() * 3);
       game.obstacles.push({
-        x: lane * 100 + 30,
-        y: -100,
-        width: 40,
-        height: 80,
+        x: l * 100 + 40, y: -150, width: 50, height: 100,
         color: ['#E8002D', '#3671C6', '#FF8000', '#00D2BE', '#006F62'][Math.floor(Math.random() * 5)]
       });
     }
 
-    // Update obstacles
     game.obstacles.forEach((obs, index) => {
       obs.y += game.speed;
-      
-      // Collision Detection
-      if (
-        game.player.x < obs.x + obs.width &&
-        game.player.x + game.player.width > obs.x &&
-        game.player.y < obs.y + obs.height &&
-        game.player.y + game.player.height > obs.y
-      ) {
+      const m = 8;
+      if (game.player.x + m < obs.x + obs.width - m && 
+          game.player.x + game.player.width - m > obs.x + m &&
+          game.player.y + m < obs.y + obs.height - m && 
+          game.player.y + game.player.height - m > obs.y + m) {
         setGameState('GAMEOVER');
       }
-
       if (obs.y > 800) game.obstacles.splice(index, 1);
     });
 
-    // Drawing
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     
-    // Parallax City Background
-    ctx.fillStyle = '#020205'; 
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // City Lights/Buildings (Parallax)
-    ctx.fillStyle = '#0A0A15';
-    for(let i=0; i<6; i++) {
-        const bx = (i * 60);
-        const bh = 100 + Math.sin(game.frame * 0.01 + i) * 50;
-        ctx.fillRect(bx, 0, 40, bh);
-        ctx.fillStyle = game.frame % 50 < 25 ? '#F0F0F022' : '#F0F0F011';
-        ctx.fillRect(bx + 10, 20, 5, 5);
-        ctx.fillRect(bx + 25, 40, 5, 5);
-        ctx.fillStyle = '#0A0A15';
-    }
-
-    // Camera Shake Logic
-    const shakeX = (Math.random() - 0.5) * (game.speed - 8) * 0.5;
-    const shakeY = (Math.random() - 0.5) * (game.speed - 8) * 0.5;
-    ctx.save();
-    ctx.translate(shakeX, shakeY);
-
-    // 1. Wet Asphalt Base
-    ctx.fillStyle = '#080808'; 
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#050505'; ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    // Wet Sheen (Reflections)
-    ctx.fillStyle = 'rgba(255,255,255,0.03)';
-    for(let i=0; i<20; i++) {
-        const ry = (game.frame * 20 + i * 100) % 800;
-        ctx.fillRect(0, ry, canvas.width, 2);
+    // Realistic Road Detail
+    ctx.fillStyle = 'rgba(255,255,255,0.015)';
+    for(let i=0; i<40; i++) {
+        const gy = (game.frame * game.speed + i * 40) % canvas.height;
+        ctx.fillRect(0, gy, canvas.width, 1);
     }
 
-    // 2. Lane Markers
-    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
-    ctx.setLineDash([40, 60]);
-    const lineOffset = (game.frame * game.speed) % 100;
+    // Lane Markers
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.setLineDash([80, 40]);
+    const lo = (game.frame * game.speed) % 120;
     ctx.beginPath();
-    ctx.moveTo(100, -100 + lineOffset); ctx.lineTo(100, 800 + lineOffset);
-    ctx.moveTo(200, -100 + lineOffset); ctx.lineTo(200, 800 + lineOffset);
-    ctx.stroke();
-    ctx.setLineDash([]);
+    ctx.moveTo(100, -150 + lo); ctx.lineTo(100, 850 + lo);
+    ctx.moveTo(200, -150 + lo); ctx.lineTo(200, 850 + lo);
+    ctx.stroke(); ctx.setLineDash([]);
 
-    // 3. Side Scenery & Street Lamps
-    const sceneryOffset = (game.frame * game.speed) % 200;
-    for(let i=-1; i<5; i++) {
-        const y = i * 200 + sceneryOffset;
-        const gradient = ctx.createRadialGradient(15, y, 0, 15, y, 100);
-        gradient.addColorStop(0, 'rgba(255, 220, 100, 0.15)');
-        gradient.addColorStop(1, 'transparent');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, y - 100, 50, 200);
-        ctx.fillRect(250, y - 100, 50, 200);
+    // 3D Curbs
+    const so = (game.frame * game.speed) % 200;
+    for(let i=-1; i<6; i++) {
+        const y = i * 200 + so;
+        for(let c=0; c<5; c++) {
+            const cy = y + c * 40;
+            ctx.fillStyle = (c % 2 === 0) ? '#E8002D' : '#FFF';
+            ctx.fillRect(0, cy, 15, 40); ctx.fillRect(canvas.width - 15, cy, 15, 40); 
+            ctx.fillStyle = 'rgba(0,0,0,0.3)'; ctx.fillRect(12, cy, 3, 40); ctx.fillRect(canvas.width - 15, cy, 3, 40);
+        }
     }
 
-    // Helper: Draw F1 Car
+    // HYPER-REALISTIC CAR RENDERING
     const drawF1Car = (x, y, color, isPlayer = false) => {
-        const w = 40;
-        const h = 80;
+      const w = 50; const h = 100;
+      
+      // 1. Ambient Glow & Shadow
+      const lg = ctx.createLinearGradient(x + w/2, y, x + w/2, y - 150);
+      lg.addColorStop(0, isPlayer ? `${color}33` : 'rgba(255,255,255,0.1)');
+      lg.addColorStop(1, 'transparent');
+      ctx.fillStyle = lg;
+      ctx.beginPath(); ctx.moveTo(x + 5, y); ctx.lineTo(x - 20, y - 150); ctx.lineTo(x + w + 20, y - 150); ctx.lineTo(x + w - 5, y); ctx.fill();
+      
+      ctx.fillStyle = 'rgba(0,0,0,0.5)';
+      ctx.beginPath(); ctx.ellipse(x + w/2, y + h - 2, w/2 + 10, 15, 0, 0, Math.PI * 2); ctx.fill();
 
-        // Headlights
-        const lightGrad = ctx.createLinearGradient(x + w/2, y, x + w/2, y - 150);
-        lightGrad.addColorStop(0, isPlayer ? `${color}33` : 'rgba(255,255,255,0.1)');
-        lightGrad.addColorStop(1, 'transparent');
-        ctx.fillStyle = lightGrad;
-        ctx.beginPath();
-        ctx.moveTo(x + 5, y);
-        ctx.lineTo(x - 30, y - 150);
-        ctx.lineTo(x + w + 30, y - 150);
-        ctx.lineTo(x + w - 5, y);
-        ctx.fill();
+      // 2. Chassis Base
+      ctx.fillStyle = '#080808'; 
+      ctx.fillRect(x + 18, y + 25, w - 36, 70); 
+      
+      // 3. Bodywork (The "Nose")
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(x + w/2 - 8, y + 5);
+      ctx.lineTo(x + w/2 + 8, y + 5);
+      ctx.lineTo(x + w/2 + 12, y + 45);
+      ctx.lineTo(x + w/2 - 12, y + 45);
+      ctx.fill();
 
-        ctx.fillStyle = 'rgba(0,0,0,0.6)';
-        ctx.beginPath();
-        ctx.ellipse(x + w/2, y + h - 2, w/2 + 5, 10, 0, 0, Math.PI * 2);
-        ctx.fill();
+      // 4. Sidepods
+      ctx.fillRect(x + 8, y + 45, w - 16, 25);
+      ctx.fillStyle = 'rgba(255,255,255,0.1)';
+      ctx.fillRect(x + 10, y + 48, 5, 20); ctx.fillRect(x + w - 15, y + 48, 5, 20); // Highlights
 
-        if (isPlayer && game.frame % 2 === 0) {
-            game.particles.push({ x: x + w/2, y: y + h - 5, vy: 5, alpha: 1 });
-        }
+      // 5. Suspension & Axles
+      ctx.strokeStyle = '#222'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(x + 15, y + 35); ctx.lineTo(x - 5, y + 30); ctx.moveTo(x + w - 15, y + 35); ctx.lineTo(x + w + 5, y + 30); ctx.stroke(); // Front
+      ctx.beginPath(); ctx.moveTo(x + 15, y + 80); ctx.lineTo(x - 5, y + 85); ctx.moveTo(x + w - 15, y + 80); ctx.lineTo(x + w + 5, y + 85); ctx.stroke(); // Rear
 
-        ctx.fillStyle = '#0a0a0a';
-        ctx.fillRect(x + 12, y + 20, w - 24, 50); 
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        ctx.moveTo(x + w/2 - 7, y + 5);
-        ctx.lineTo(x + w/2 + 7, y + 5);
-        ctx.lineTo(x + w/2 + 10, y + 35);
-        ctx.lineTo(x + w/2 - 10, y + 35);
-        ctx.fill();
-        ctx.fillRect(x + 2, y + 30, w - 4, 15);
-        
-        ctx.fillStyle = '#111';
-        ctx.fillRect(x - 5, y + 5, w + 10, 5); 
-        ctx.fillRect(x - 8, y + h - 10, w + 16, 8); 
-        ctx.fillStyle = '#050505';
-        ctx.fillRect(x - 10, y + 15, 10, 20); ctx.fillRect(x + w, y + 15, 10, 20);
-        ctx.fillRect(x - 12, y + h - 30, 12, 24); ctx.fillRect(x + w, y + h - 30, 12, 24);
+      // 6. Tires (Textured)
+      ctx.fillStyle = '#050505';
+      const drawTire = (tx, ty, tw, th) => {
+          ctx.fillRect(tx, ty, tw, th);
+          ctx.fillStyle = 'rgba(255,255,255,0.05)';
+          ctx.fillRect(tx + tw/2 - 1, ty, 2, th); // Tire highlight
+          ctx.fillStyle = '#050505';
+      };
+      drawTire(x - 14, y + 20, 14, 25); drawTire(x + w, y + 20, 14, 25);
+      drawTire(x - 16, y + h - 45, 16, 30); drawTire(x + w, y + h - 45, 16, 30);
 
-        if (isPlayer) {
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = color;
-            ctx.strokeStyle = color;
-            ctx.strokeRect(x + 10, y + 25, w - 20, 40);
-            ctx.shadowBlur = 0;
-        }
+      // 7. Wings
+      ctx.fillStyle = '#111';
+      ctx.fillRect(x - 10, y + 5, w + 20, 10); // Front wing
+      ctx.fillStyle = 'rgba(255,255,255,0.1)'; ctx.fillRect(x - 10, y + 5, w + 20, 2); // Wing highlight
+      ctx.fillStyle = '#111';
+      ctx.fillRect(x - 14, y + h - 18, w + 28, 14); // Rear wing
+
+      // 8. Driver Cockpit
+      ctx.fillStyle = '#000';
+      ctx.beginPath(); ctx.arc(x + w/2, y + 40, 6, 0, Math.PI * 2); ctx.fill(); // Helmet
+      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.beginPath(); ctx.arc(x + w/2 - 2, y + 38, 2, 0, Math.PI * 2); ctx.fill(); // Visor glint
     };
 
-    game.particles.forEach((p, i) => {
-        p.y += p.vy;
-        p.alpha -= 0.05;
-        if (p.alpha <= 0) game.particles.splice(i, 1);
-        ctx.fillStyle = `rgba(255,255,255,${p.alpha * 0.3})`;
-        ctx.fillRect(p.x - 1, p.y, 2, 2);
-    });
-
     drawF1Car(game.player.x, game.player.y, currentTheme.color, true);
-    game.obstacles.forEach(obs => drawF1Car(obs.x, obs.y, obs.color, false));
+    game.obstacles.forEach(obs => drawF1Car(obs.x, obs.y, obs.color));
 
-    if (game.frame % 400 < 50) {
-        const bridgeY = (game.frame % 400) * 16 - 200;
-        ctx.fillStyle = '#111';
-        ctx.fillRect(0, bridgeY, canvas.width, 100);
-        ctx.fillStyle = 'rgba(0,0,0,0.5)';
-        ctx.fillRect(0, bridgeY + 100, canvas.width, 20);
-    }
-
-    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
-    for(let i=0; i<10; i++) {
-        const rx = Math.random() * 300;
-        const ry = Math.random() * 600;
-        ctx.beginPath();
-        ctx.moveTo(rx, ry);
-        ctx.lineTo(rx + 2, ry + 10);
-        ctx.stroke();
-    }
-
-    ctx.restore(); 
     requestRef.current = requestAnimationFrame(update);
   };
 
@@ -219,125 +159,71 @@ export default function RaceGamePage() {
     return () => cancelAnimationFrame(requestRef.current);
   }, [gameState]);
 
-  const startGame = () => {
-    gameRef.current = {
-      player: { x: 130, y: 500, targetX: 130, width: 40, height: 80 },
-      obstacles: [],
-      speed: 8,
-      distance: 0,
-      particles: [],
-      frame: 0
-    };
-    setScore(0);
-    setGameState('PLAYING');
-  };
-
-  const handleKeyDown = (e) => {
+  const move = (dir) => {
     if (gameState !== 'PLAYING') return;
-    if (e.key === 'ArrowLeft' || e.key === 'a') gameRef.current.player.targetX = Math.max(30, gameRef.current.player.targetX - 100);
-    if (e.key === 'ArrowRight' || e.key === 'd') gameRef.current.player.targetX = Math.min(230, gameRef.current.player.targetX + 100);
+    const newLane = Math.max(0, Math.min(2, lane + dir));
+    setLane(newLane);
+    gameRef.current.player.targetX = newLane * 100 + 40;
   };
 
   useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (gameState !== 'PLAYING') return;
+      if (e.key === 'ArrowLeft' || e.key === 'a') move(-1);
+      if (e.key === 'ArrowRight' || e.key === 'd') move(1);
+    };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [gameState]);
+  }, [gameState, lane]);
 
-  useEffect(() => {
-    if (score > highScore) setHighScore(score);
-  }, [score]);
+  const startGame = () => {
+    gameRef.current = { player: { x: 140, y: 500, targetX: 140, width: 50, height: 100 }, obstacles: [], speed: 10, distance: 0, frame: 0 };
+    setLane(1); setScore(0); setGameState('PLAYING');
+  };
 
   return (
-    <div style={{
-      minHeight: '100vh', paddingTop: '120px', display: 'flex', flexDirection: 'column',
-      alignItems: 'center', background: '#050505', position: 'relative', overflow: 'hidden'
-    }}>
-      <div style={{
-        position: 'absolute', inset: 0,
-        background: 'radial-gradient(circle, transparent 20%, rgba(0,0,0,0.4) 100%)',
-        pointerEvents: 'none', zIndex: 10
-      }} />
-
-      <header style={{ textAlign: 'center', marginBottom: '40px', zIndex: 1 }}>
-        <h1 style={{
-          fontFamily: "'Space Grotesk', sans-serif", fontSize: '3.5rem', fontWeight: 900, color: '#FFF',
-          letterSpacing: '-0.04em', marginBottom: '8px', textTransform: 'uppercase'
-        }}>
-          STREET <span style={{ color: 'var(--color-accent)' }}>DRIVE</span>
+    <div style={{ minHeight: '100vh', paddingTop: '80px', display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#050505' }}>
+      <header style={{ textAlign: 'center', marginBottom: '30px' }}>
+        <h1 style={{ fontSize: '3rem', fontWeight: 900, color: '#fff', textTransform: 'uppercase' }}>
+          ELITE <span style={{ color: 'var(--color-accent)' }}>DRIVE</span>
         </h1>
-        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.2em' }}>
-          HYPER-REAL 2026 SIMULATION
-        </p>
       </header>
 
-      <div style={{ display: 'flex', gap: '60px', alignItems: 'flex-start', zIndex: 1 }}>
-        <div style={{
-          position: 'relative', width: '300px', height: '600px', background: '#0b0b0b',
-          borderRadius: '32px', border: '2px solid rgba(255,255,255,0.1)', overflow: 'hidden',
-          boxShadow: '0 50px 120px rgba(0,0,0,1)'
-        }}>
-          <canvas ref={canvasRef} width={300} height={600} style={{ width: '100%', height: '100%', display: 'block' }} />
+      <div style={{ display: 'flex', gap: '40px', alignItems: 'flex-start' }}>
+        <div style={{ position: 'relative', width: '300px', height: '650px', background: '#0b0b0b', borderRadius: '30px', border: '3px solid #1a1a1a', overflow: 'hidden' }}>
+          <canvas ref={canvasRef} width={300} height={650} style={{ width: '100%', height: '100%', display: 'block' }} />
 
           <AnimatePresence>
             {gameState === 'IDLE' && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                style={{
-                  position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                  background: 'rgba(5,5,5,0.92)', backdropFilter: 'blur(20px)', textAlign: 'center', padding: '20px'
-                }}
-              >
-                <div style={{ 
-                  width: '90px', height: '90px', borderRadius: '50%', background: 'var(--color-accent)', 
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px', cursor: 'pointer',
-                  boxShadow: '0 0 50px var(--color-accent)', border: '6px solid rgba(255,255,255,0.1)'
-                }} onClick={startGame}>
-                  <Play size={40} color="#050505" fill="#050505" />
-                </div>
-                <h2 style={{ color: '#FFF', fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.8rem', fontWeight: 900 }}>READY?</h2>
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'rgba(5,5,5,0.92)', backdropFilter: 'blur(20px)' }}>
+                <Play size={60} style={{ marginBottom: '20px', cursor: 'pointer', color: 'var(--color-accent)' }} onClick={startGame} />
+                <h2 style={{ color: '#fff', fontWeight: 900 }}>READY TO DRIVE?</h2>
               </motion.div>
             )}
 
             {gameState === 'GAMEOVER' && (
-              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
-                style={{
-                  position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                  background: 'rgba(0,0,0,0.95)', backdropFilter: 'blur(30px)', color: '#FFF'
-                }}
-              >
-                <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '2.5rem', fontWeight: 900, color: 'var(--color-accent)' }}>RETIRED</h2>
-                <button onClick={startGame} style={{
-                    marginTop: '40px', background: '#FFF', color: '#000', border: 'none', padding: '18px 40px',
-                    borderRadius: '16px', fontWeight: 900, cursor: 'pointer', fontSize: '1rem'
-                  }}
-                >RE-ENGAGE</button>
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.95)', backdropFilter: 'blur(30px)' }}>
+                <h2 style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--color-accent)' }}>RETIRED</h2>
+                <button onClick={startGame} style={{ marginTop: '30px', background: '#fff', color: '#000', border: 'none', padding: '15px 40px', borderRadius: '12px', fontWeight: 900, cursor: 'pointer' }}>RESTART</button>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          <StatBox label="VELOCITY" value={`${Math.floor(gameRef.current.speed * 28)}`} unit="KM/H" icon={Zap} color="var(--color-accent)" />
-          <StatBox label="DISTANCE" value={`${score}`} unit="M" icon={Flag} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <StatBox label="DISTANCE" value={`${score} KM`} />
+          <StatBox label="RECORD" value={`${highScore} KM`} color="var(--color-accent)" />
         </div>
       </div>
     </div>
   );
 }
 
-function StatBox({ label, value, unit, icon: Icon, color = '#FFF' }) {
+function StatBox({ label, value, color = '#fff' }) {
   return (
-    <div style={{
-      background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)',
-      borderRadius: '32px', padding: '32px', minWidth: '280px'
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', opacity: 0.4 }}>
-        <Icon size={16} />
-        <span style={{ fontSize: '0.7rem', fontWeight: 900, letterSpacing: '0.15em' }}>{label}</span>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-        <div style={{ fontSize: '3rem', fontWeight: 900, color, fontFamily: "'Space Grotesk', sans-serif" }}>{value}</div>
-        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#444' }}>{unit}</div>
-      </div>
+    <div style={{ background: '#111', padding: '25px', borderRadius: '25px', border: '1px solid #222', minWidth: '180px' }}>
+      <div style={{ fontSize: '0.6rem', fontWeight: 900, opacity: 0.4, marginBottom: '5px', letterSpacing: '0.1em' }}>{label}</div>
+      <div style={{ fontSize: '1.8rem', fontWeight: 900, color }}>{value}</div>
     </div>
   );
 }
