@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { MapPin, Clock, Zap, Star, Eye } from 'lucide-react';
 import { useGSAP } from '@gsap/react';
@@ -12,6 +12,9 @@ import { useFavoritesStore } from '../stores/favorites-store.js';
 // ============================================================
 
 export default function RaceCard({ race, index = 0, image }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const displayImage = image || race.cityImage || race.image;
+  
   // Use a slightly higher intensity for the 4D effect
   const { cardRef, handleMouseMove, handleMouseLeave } = useCardTilt(15);
   const wrapperRef = useRef(null);
@@ -56,13 +59,23 @@ export default function RaceCard({ race, index = 0, image }) {
             overflow: 'hidden',
             // THE GLASS
             background: 'rgba(11, 11, 11, 0.4)',
-            backdropFilter: 'blur(24px)',
-            WebkitBackdropFilter: 'blur(24px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            backdropFilter: 'var(--glass-blur)',
+            WebkitBackdropFilter: 'var(--glass-blur)',
+            border: '1px solid var(--glass-border)',
+            boxShadow: 'var(--card-shadow)',
             transformStyle: 'preserve-3d',
             willChange: 'transform',
             cursor: 'pointer',
-            transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
+            transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = 'var(--color-accent)';
+            e.currentTarget.style.boxShadow = 'var(--card-shadow-hover)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = 'var(--glass-border)';
+            e.currentTarget.style.boxShadow = 'var(--card-shadow)';
+            handleMouseLeave();
           }}
         >
           {/* THE IMAGE (Top 70%) */}
@@ -71,16 +84,31 @@ export default function RaceCard({ race, index = 0, image }) {
               position: 'relative',
               height: '240px',
               overflow: 'hidden',
+              background: race.heroColor || '#111',
             }}
           >
+            {/* Shimmer / Skeleton */}
+            {!isLoaded && (
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent)',
+                backgroundSize: '200% 100%',
+                animation: 'shimmer 1.5s infinite linear',
+                zIndex: 1
+              }} />
+            )}
+
             <img 
-              src={image} 
+              src={displayImage} 
               alt={race.name}
+              onLoad={() => setIsLoaded(true)}
               style={{
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                transition: 'transform 0.6s cubic-bezier(0.33, 1, 0.68, 1)',
+                opacity: isLoaded ? 1 : 0,
+                transition: 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.33, 1, 0.68, 1)',
               }}
               className="card-image"
             />
@@ -100,7 +128,7 @@ export default function RaceCard({ race, index = 0, image }) {
               zIndex: 2,
             }}>
               <span style={{
-                background: '#39FF88',
+                background: 'var(--color-accent)',
                 color: '#050505',
                 padding: '4px 10px',
                 borderRadius: '6px',
@@ -108,7 +136,8 @@ export default function RaceCard({ race, index = 0, image }) {
                 fontSize: '0.6rem',
                 fontWeight: 800,
                 letterSpacing: '0.1em',
-                textTransform: 'uppercase'
+                textTransform: 'uppercase',
+                transition: 'background 0.4s ease'
               }}>
                 {race.flag} RD. {race.round}
               </span>
@@ -153,7 +182,7 @@ export default function RaceCard({ race, index = 0, image }) {
               <div style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.1)' }} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 <span style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)', fontWeight: 700, letterSpacing: '0.1em' }}>TYPE</span>
-                <span style={{ fontSize: '0.8rem', color: '#39FF88', fontWeight: 700 }}>{race.type || 'F1 Circuit'}</span>
+                <span style={{ fontSize: '0.8rem', color: 'var(--color-accent)', fontWeight: 700, transition: 'color 0.4s ease' }}>{race.type || 'F1 Circuit'}</span>
               </div>
             </div>
           </div>
@@ -181,6 +210,10 @@ export default function RaceCard({ race, index = 0, image }) {
         }
         article:hover .card-overlay {
           background: rgba(0,0,0,0.1);
+        }
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
         }
       `}</style>
     </div>

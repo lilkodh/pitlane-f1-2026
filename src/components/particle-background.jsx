@@ -1,6 +1,7 @@
 import { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { useThemeStore } from '../stores/theme-store.js';
 
 // ============================================================
 // ParticleField — WebGL particle system using React Three Fiber
@@ -8,44 +9,49 @@ import * as THREE from 'three';
 // ============================================================
 
 const PARTICLE_COUNT = 600;
-const TELEMETRY_GREEN = new THREE.Color('#39FF88');
-const CHAMPIONSHIP_YELLOW = new THREE.Color('#FFD60A');
 
 // Inner component — lives inside the R3F Canvas
 function Particles() {
   const meshRef = useRef(null);
   const timeRef = useRef(0);
+  const currentTheme = useThemeStore((s) => s.currentTheme);
 
-  // Generate random particle positions, sizes, colours, speeds once
-  const { positions, colors, sizes, speeds, phases } = useMemo(() => {
+  // Generate random particle positions, sizes, speeds once
+  const { positions, sizes, speeds, phases } = useMemo(() => {
     const positions = new Float32Array(PARTICLE_COUNT * 3);
-    const colors = new Float32Array(PARTICLE_COUNT * 3);
     const sizes = new Float32Array(PARTICLE_COUNT);
     const speeds = new Float32Array(PARTICLE_COUNT);
     const phases = new Float32Array(PARTICLE_COUNT);
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       const i3 = i * 3;
-
-      // Spread particles across the viewport
-      positions[i3] = (Math.random() - 0.5) * 20;      // x
-      positions[i3 + 1] = (Math.random() - 0.5) * 12;  // y
-      positions[i3 + 2] = (Math.random() - 0.5) * 8;   // z depth
-
-      // Mix of green (80%) and yellow (20%) particles
-      const isYellow = Math.random() < 0.2;
-      const baseColor = isYellow ? CHAMPIONSHIP_YELLOW : TELEMETRY_GREEN;
-      colors[i3] = baseColor.r;
-      colors[i3 + 1] = baseColor.g;
-      colors[i3 + 2] = baseColor.b;
+      positions[i3] = (Math.random() - 0.5) * 20;
+      positions[i3 + 1] = (Math.random() - 0.5) * 12;
+      positions[i3 + 2] = (Math.random() - 0.5) * 8;
 
       sizes[i] = Math.random() * 4 + 1;
-      speeds[i] = Math.random() * 0.003 + 0.001;   // upward drift speed
-      phases[i] = Math.random() * Math.PI * 2;       // random phase offset
+      speeds[i] = Math.random() * 0.003 + 0.001;
+      phases[i] = Math.random() * Math.PI * 2;
     }
 
-    return { positions, colors, sizes, speeds, phases };
+    return { positions, sizes, speeds, phases };
   }, []);
+
+  // Update colors when theme changes
+  const colors = useMemo(() => {
+    const colorsArr = new Float32Array(PARTICLE_COUNT * 3);
+    const color = new THREE.Color(currentTheme.color);
+    
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const i3 = i * 3;
+      // Slight variation in brightness/hue
+      const variation = 0.8 + Math.random() * 0.4;
+      colorsArr[i3] = color.r * variation;
+      colorsArr[i3 + 1] = color.g * variation;
+      colorsArr[i3 + 2] = color.b * variation;
+    }
+    return colorsArr;
+  }, [currentTheme]);
 
   // Animate particles each frame
   useFrame((_, delta) => {

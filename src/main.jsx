@@ -18,6 +18,7 @@ import CalendarPage from './pages/calendar-page.jsx';
 import RaceDetailPage from './pages/race-detail-page.jsx';
 import MyGaragePage from './pages/my-garage-page.jsx';
 import MySeasonPage from './pages/my-season-page.jsx';
+import RaceGamePage from './pages/race-game-page.jsx';
 
 // Register GSAP plugins ONCE here — never in components
 gsap.registerPlugin(ScrollTrigger, Flip, useGSAP);
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
       { path: 'calendar/:raceId', element: <RaceDetailPage /> },
       { path: 'mygarage', element: <MyGaragePage /> },
       { path: 'myseason', element: <MySeasonPage /> },
+      { path: 'play', element: <RaceGamePage /> },
     ],
   },
 ]);

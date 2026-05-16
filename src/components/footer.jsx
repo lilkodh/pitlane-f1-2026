@@ -9,9 +9,10 @@ export default function Footer() {
   return (
     <footer
       style={{
-        borderTop: '1px solid rgba(255,255,255,0.05)',
+        borderTop: '1px solid var(--glass-border)',
         padding: '40px 40px 32px',
         background: '#050505',
+        transition: 'border-top 0.4s ease',
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
@@ -31,7 +32,7 @@ export default function Footer() {
             textDecoration: 'none',
           }}
         >
-          <span style={{ color: '#39FF88' }}>PIT</span>
+          <span style={{ color: 'var(--color-accent)', transition: 'color 0.4s ease' }}>PIT</span>
           <span style={{ color: '#F0F0F0' }}>LANE</span>
         </Link>
         <p
@@ -89,7 +90,9 @@ export default function Footer() {
           fontSize: '0.7rem',
           fontWeight: 600,
           letterSpacing: '0.1em',
-          color: 'rgba(57,255,136,0.4)',
+          color: 'var(--color-accent)',
+          opacity: 0.4,
+          transition: 'color 0.4s ease'
         }}
       >
         <Flag size={12} />

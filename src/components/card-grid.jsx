@@ -1,7 +1,4 @@
 import RaceCard from './race-card.jsx';
-import monacoImg from '../assets/monaco-track.png';
-import silverstoneImg from '../assets/silverstone-track.png';
-import suzukaImg from '../assets/track-3.jpg'; // Fallback for Suzuka
 
 // ============================================================
 // CardGrid — Modular 4D race card showcase
@@ -21,7 +18,7 @@ const DUMMY_RACES = [
     length: '3.337 km',
     laps: 78,
     type: 'Street Circuit',
-    image: monacoImg
+    image: 'https://images.unsplash.com/photo-1521020770248-4360e2714578?auto=format&fit=crop&w=1000&q=80' // Monaco
   },
   {
     id: 'silverstone',
@@ -35,7 +32,7 @@ const DUMMY_RACES = [
     length: '5.891 km',
     laps: 52,
     type: 'Permanent Circuit',
-    image: silverstoneImg
+    image: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1000&q=80' // Britain
   },
   {
     id: 'suzuka',
@@ -49,77 +46,7 @@ const DUMMY_RACES = [
     length: '5.807 km',
     laps: 53,
     type: 'Permanent (Figure-8)',
-    image: suzukaImg
-  },
-  {
-    id: 'singapore',
-    name: 'FORMULA 1 SINGAPORE GRAND PRIX 2026',
-    city: 'Singapore',
-    flag: '🇸🇬',
-    round: 18,
-    raceDate: '04 OCT',
-    heroColor: '#FFD60A',
-    circuit: 'Marina Bay Street Circuit',
-    length: '4.940 km',
-    laps: 61,
-    type: 'Night Street Circuit',
-    image: 'https://images.unsplash.com/photo-1525625239911-376c500730d4?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: 'las-vegas',
-    name: 'FORMULA 1 LAS VEGAS GRAND PRIX 2026',
-    city: 'Las Vegas',
-    flag: '🇺🇸',
-    round: 23,
-    raceDate: '21 NOV',
-    heroColor: '#A855F7',
-    circuit: 'Las Vegas Strip Circuit',
-    length: '6.201 km',
-    laps: 50,
-    type: 'Night Street Circuit',
-    image: 'https://images.unsplash.com/photo-1581351123004-757df051db8e?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: 'miami',
-    name: 'FORMULA 1 MIAMI GRAND PRIX 2026',
-    city: 'Miami',
-    flag: '🇺🇸',
-    round: 6,
-    raceDate: '03 MAY',
-    heroColor: '#FF6B35',
-    circuit: 'Miami International Autodrome',
-    length: '5.412 km',
-    laps: 57,
-    type: 'Street Circuit',
-    image: 'https://images.unsplash.com/photo-1514214246283-d427a95c5d2f?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: 'monza',
-    name: 'FORMULA 1 ITALIAN GRAND PRIX 2026',
-    city: 'Monza',
-    flag: '🇮🇹',
-    round: 16,
-    raceDate: '06 SEP',
-    heroColor: '#E8002D',
-    circuit: 'Autodromo Nazionale Monza',
-    length: '5.793 km',
-    laps: 53,
-    type: 'Permanent (High Speed)',
-    image: 'https://images.unsplash.com/photo-1525874684015-58379d421a52?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: 'brazil',
-    name: 'FORMULA 1 BRAZILIAN GRAND PRIX 2026',
-    city: 'São Paulo',
-    flag: '🇧🇷',
-    round: 21,
-    raceDate: '08 NOV',
-    heroColor: '#009C3B',
-    circuit: 'Autódromo José Carlos Pace',
-    length: '4.309 km',
-    laps: 71,
-    type: 'Permanent Circuit',
-    image: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&q=80&w=800'
+    image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1000&q=80' // Japan
   }
 ];
 

@@ -16,12 +16,18 @@
   --color-white: #F0F0F0;
   --color-muted: rgba(240, 240, 240, 0.4);
   --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-hover: rgba(57, 255, 136, 0.3);
+  
+  /* Dynamic Accent (Controlled by Theme Store) */
+  --color-accent: #39FF88;
+  --color-accent-rgb: 57, 255, 136;
+  --color-border-hover: rgba(var(--color-accent-rgb), 0.3);
 
   /* Glass */
   --glass-bg: rgba(11, 11, 11, 0.4);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(var(--color-accent-rgb), 0.1);
   --glass-blur: blur(24px);
+  --card-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  --card-shadow-hover: 0 20px 40px rgba(var(--color-accent-rgb), 0.15);
 
   /* Typography */
   --font-display: 'Space Grotesk', sans-serif;
@@ -56,14 +62,14 @@ body {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--color-bg-base); }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-green);
+  background: var(--color-accent);
   border-radius: 2px;
 }
 
 /* --- Selection --- */
-::selection {
-  background: rgba(57, 255, 136, 0.2);
-  color: var(--color-green);
+::-selection {
+  background: rgba(var(--color-accent-rgb), 0.2);
+  color: var(--color-accent);
 }
 
 /* --- Utility Classes --- */
@@ -77,9 +83,15 @@ body {
   border-radius: 16px;
 }
 
-/* Green Glow Text */
+/* Dynamic Accent Glow Text */
+.text-glow-accent {
+  color: var(--color-accent);
+  text-shadow: 0 0 20px rgba(var(--color-accent-rgb), 0.6), 0 0 60px rgba(var(--color-accent-rgb), 0.2);
+}
+
+/* Green Glow Text (Legacy) */
 .text-glow-green {
-  color: var(--color-green);
+  color: #39FF88;
   text-shadow: 0 0 20px rgba(57, 255, 136, 0.6), 0 0 60px rgba(57, 255, 136, 0.2);
 }
 
@@ -89,15 +101,15 @@ body {
   text-shadow: 0 0 20px rgba(255, 214, 10, 0.6), 0 0 60px rgba(255, 214, 10, 0.2);
 }
 
-/* Green Box Shadow Glow */
-.glow-green {
-  box-shadow: 0 0 30px rgba(57, 255, 136, 0.15), 0 0 80px rgba(57, 255, 136, 0.05);
+/* Accent Box Shadow Glow */
+.glow-accent {
+  box-shadow: 0 0 30px rgba(var(--color-accent-rgb), 0.15), 0 0 80px rgba(var(--color-accent-rgb), 0.05);
 }
 
-/* Neon Green Border */
-.border-neon-green {
-  border-color: var(--color-green);
-  box-shadow: 0 0 12px rgba(57, 255, 136, 0.3), inset 0 0 12px rgba(57, 255, 136, 0.05);
+/* Neon Accent Border */
+.border-neon-accent {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 12px rgba(var(--color-accent-rgb), 0.3), inset 0 0 12px rgba(var(--color-accent-rgb), 0.05);
 }
 
 /* Sprint Weekend Yellow Pulse */

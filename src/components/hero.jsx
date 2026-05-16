@@ -20,6 +20,7 @@ export default function Hero() {
   const heroRef = useRef(null);
   const titleRef = useRef(null);
   const carRef = useRef(null);
+  const innerCarRef = useRef(null);
   const panelRef = useRef(null);
   const taglineRef = useRef(null);
   const nextRace = getNextRace();
@@ -87,6 +88,80 @@ export default function Hero() {
       },
     });
 
+    // Particles streak past camera (warp effect)
+    gsap.to('.particle-wrapper', {
+      scale: 2.5,
+      opacity: 0.2,
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 0.5,
+      },
+    });
+
+    // 5. 8D 360 Mouse Tilt Physics
+    const onMouseMove = (e) => {
+      if (!innerCarRef.current || !titleRef.current) return;
+      const { clientX, clientY } = e;
+      const { innerWidth, innerHeight } = window;
+      
+      const xPos = (clientX / innerWidth - 0.5) * 2;
+      const yPos = (clientY / innerHeight - 0.5) * 2;
+      
+      // 360-degree floating car
+      gsap.to(innerCarRef.current, {
+        rotateX: yPos * -15, 
+        rotateY: xPos * 25,  
+        x: xPos * 50,        
+        y: yPos * 30,
+        rotationZ: xPos * 2, // Slight banking       
+        duration: 1.2,
+        ease: 'power3.out',
+        transformPerspective: 1200,
+        transformOrigin: 'center center',
+      });
+
+      // Inverse parallax on typography
+      gsap.to(titleRef.current, {
+        x: xPos * -40,
+        rotateY: xPos * -10,
+        rotateX: yPos * 5,
+        duration: 1.5,
+        ease: 'power2.out',
+        transformPerspective: 1000,
+      });
+    };
+
+    const onMouseLeave = () => {
+      if (!innerCarRef.current || !titleRef.current) return;
+      gsap.to(innerCarRef.current, {
+        rotateX: 0,
+        rotateY: 0,
+        x: 0,
+        y: 0,
+        rotationZ: 0,
+        duration: 1.5,
+        ease: 'elastic.out(1, 0.4)',
+      });
+      gsap.to(titleRef.current, {
+        x: 0,
+        rotateY: 0,
+        rotateX: 0,
+        duration: 1.5,
+        ease: 'elastic.out(1, 0.4)',
+      });
+    };
+
+    const currentHero = heroRef.current;
+    currentHero.addEventListener('mousemove', onMouseMove);
+    currentHero.addEventListener('mouseleave', onMouseLeave);
+
+    return () => {
+      currentHero.removeEventListener('mousemove', onMouseMove);
+      currentHero.removeEventListener('mouseleave', onMouseLeave);
+    };
+
   }, { scope: heroRef });
 
   return (
@@ -103,16 +178,47 @@ export default function Hero() {
       }}
     >
       {/* Layer 1: WebGL Background */}
-      <ParticleBackground />
+      <div className="particle-wrapper" style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
+        <ParticleBackground />
+      </div>
 
       {/* Layer 2: Subtle Depth Gradient */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 1,
-        background: 'radial-gradient(circle at 50% 50%, rgba(57,255,136,0.08) 0%, transparent 70%)',
+        background: 'radial-gradient(circle at 50% 50%, rgba(var(--color-accent-rgb), 0.08) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
 
-      {/* Layer 3: Massive Typography (Split Text) */}
+      {/* Layer 3: The 8D Hero Car */}
+      <div
+        ref={carRef}
+        style={{
+          position: 'relative',
+          zIndex: 3,
+          width: '100%',
+          maxWidth: '1600px',
+          display: 'flex',
+          justifyContent: 'center',
+          pointerEvents: 'none',
+          marginTop: '100px',
+          transformStyle: 'preserve-3d',
+        }}
+      >
+        <div ref={innerCarRef} style={{ width: '100%', display: 'flex', justifyContent: 'center', transformStyle: 'preserve-3d' }}>
+          <img
+            src={heroCarImg}
+            alt="2026 F1 Concept"
+            style={{
+              width: '95%',
+              height: 'auto',
+              filter: 'drop-shadow(0 0 100px rgba(var(--color-accent-rgb), 0.2)) drop-shadow(0 20px 40px rgba(0,0,0,0.8))',
+              mixBlendMode: 'screen', // Blends black background if present
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Layer 4: Massive Typography (Split Text - Overlapping Car) */}
       <div 
         ref={titleRef}
         style={{
@@ -120,7 +226,7 @@ export default function Hero() {
           top: '35%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          zIndex: 2,
+          zIndex: 4,
           perspective: '1200px',
           textAlign: 'center',
           width: '100%',
@@ -135,11 +241,12 @@ export default function Hero() {
               style={{
                 display: 'inline-block',
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: 'clamp(6rem, 18vw, 18rem)',
+                fontSize: 'clamp(6rem, 15vw, 15rem)',
                 fontWeight: 900,
                 color: '#F0F0F0',
                 letterSpacing: '-0.05em',
                 lineHeight: 1,
+                textShadow: '0 20px 40px rgba(0,0,0,0.5)',
               }}
             >
               {char}
@@ -151,40 +258,16 @@ export default function Hero() {
             fontFamily: "'Space Grotesk', sans-serif",
             fontSize: '1.5rem',
             fontWeight: 700,
-            color: '#39FF88',
+            color: 'var(--color-accent)',
             letterSpacing: '0.5em',
             marginTop: '-20px',
-            opacity: 0.8
+            opacity: 0.8,
+            textShadow: '0 10px 20px rgba(var(--color-accent-rgb), 0.5)',
+            transition: 'color 0.4s ease, text-shadow 0.4s ease'
           }}
         >
           {SUBHEAD}
         </div>
-      </div>
-
-      {/* Layer 4: The 8D Hero Car */}
-      <div
-        ref={carRef}
-        style={{
-          position: 'relative',
-          zIndex: 4,
-          width: '100%',
-          maxWidth: '1600px',
-          display: 'flex',
-          justifyContent: 'center',
-          pointerEvents: 'none',
-          marginTop: '100px',
-        }}
-      >
-        <img
-          src={heroCarImg}
-          alt="2026 F1 Concept"
-          style={{
-            width: '95%',
-            height: 'auto',
-            filter: 'drop-shadow(0 0 100px rgba(57,255,136,0.2))',
-            mixBlendMode: 'screen', // Blends black background if present
-          }}
-        />
       </div>
 
       {/* Layer 5: Floating Content Overlay */}
@@ -193,20 +276,21 @@ export default function Hero() {
         bottom: '15%',
         left: '5%',
         right: '5%',
-        zIndex: 5,
+        zIndex: 10,
         display: 'flex',
         flexDirection: 'column',
         gap: '40px',
       }}>
         <div ref={taglineRef} style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <div style={{ width: '40px', height: '2px', background: '#39FF88' }} />
+          <div style={{ width: '40px', height: '2px', background: 'var(--color-accent)', transition: 'background 0.4s ease' }} />
           <span style={{
             fontFamily: "'Space Grotesk', sans-serif",
             fontSize: '0.8rem',
             fontWeight: 700,
             letterSpacing: '0.3em',
-            color: '#39FF88',
+            color: 'var(--color-accent)',
             textTransform: 'uppercase',
+            transition: 'color 0.4s ease'
           }}>
             The Future of Racing is Here
           </span>
@@ -254,7 +338,7 @@ export default function Hero() {
             <Link
               to={`/calendar/${nextRace.id}`}
               style={{
-                background: '#39FF88',
+                background: 'var(--color-accent)',
                 color: '#050505',
                 padding: '16px 28px',
                 borderRadius: '12px',
@@ -265,10 +349,17 @@ export default function Hero() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                transition: 'transform 0.3s ease',
+                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                boxShadow: '0 0 20px rgba(var(--color-accent-rgb), 0.2)'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.boxShadow = '0 0 40px rgba(var(--color-accent-rgb), 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = '0 0 20px rgba(var(--color-accent-rgb), 0.2)';
+              }}
             >
               RACE CENTER <ChevronRight size={18} />
             </Link>
@@ -299,13 +390,14 @@ export default function Hero() {
           <div style={{
             width: '4px',
             height: '8px',
-            background: '#39FF88',
+            background: 'var(--color-accent)',
             borderRadius: '2px',
             position: 'absolute',
             top: '8px',
             left: '50%',
             transform: 'translateX(-50%)',
-            animation: 'scrollAnim 2s infinite'
+            animation: 'scrollAnim 2s infinite',
+            transition: 'background 0.4s ease'
           }} />
         </div>
       </div>

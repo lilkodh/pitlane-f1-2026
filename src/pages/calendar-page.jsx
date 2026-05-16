@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { Search, Zap, Flag, Filter } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import RaceCard from '../components/race-card.jsx';
 import { races } from '../data/races.js';
 
@@ -129,11 +130,22 @@ export default function CalendarPage() {
             No races match your filter.
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
-            {filtered.map((race, i) => (
-              <RaceCard key={race.id} race={race} index={i} image={race.cityImage} />
-            ))}
-          </div>
+          <motion.div layout style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
+            <AnimatePresence mode="popLayout">
+              {filtered.map((race, i) => (
+                <motion.div
+                  key={race.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.8, y: 30 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, filter: 'blur(10px)' }}
+                  transition={{ duration: 0.4, type: 'spring', bounce: 0.2, delay: i * 0.05 }}
+                >
+                  <RaceCard race={race} index={0} image={race.cityImage} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         )}
       </div>
     </div>

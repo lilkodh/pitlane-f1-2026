@@ -17,7 +17,7 @@ export default function CountdownTimer({ targetDate, label = 'NEXT RACE IN' }) {
 
   if (isExpired) {
     return (
-      <div ref={containerRef} style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.85rem', fontWeight: 700, color: '#39FF88', letterSpacing: '0.15em' }}>
+      <div ref={containerRef} style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-accent)', letterSpacing: '0.15em', transition: 'color 0.4s ease' }}>
         🏁 RACE IN PROGRESS
       </div>
     );
@@ -44,8 +44,13 @@ export default function CountdownTimer({ targetDate, label = 'NEXT RACE IN' }) {
 function DigitBlock({ value, unit, isLive = false }) {
   return (
     <div className="cd-digit" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-      <div style={{ background: 'rgba(57,255,136,0.06)', border: `1px solid ${isLive ? 'rgba(57,255,136,0.3)' : 'rgba(57,255,136,0.1)'}`, borderRadius: '8px', padding: '10px 14px', minWidth: '58px', textAlign: 'center' }}>
-        <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.8rem', fontWeight: 700, color: isLive ? '#39FF88' : '#F0F0F0', lineHeight: 1, letterSpacing: '-0.03em', fontVariantNumeric: 'tabular-nums' }}>
+      <div style={{ 
+        background: 'rgba(var(--color-accent-rgb), 0.06)', 
+        border: `1px solid ${isLive ? 'rgba(var(--color-accent-rgb), 0.3)' : 'rgba(var(--color-accent-rgb), 0.1)'}`, 
+        borderRadius: '8px', padding: '10px 14px', minWidth: '58px', textAlign: 'center',
+        transition: 'all 0.4s ease'
+      }}>
+        <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.8rem', fontWeight: 700, color: isLive ? 'var(--color-accent)' : '#F0F0F0', lineHeight: 1, letterSpacing: '-0.03em', fontVariantNumeric: 'tabular-nums', transition: 'color 0.4s ease' }}>
           {String(value).padStart(2, '0')}
         </span>
       </div>
